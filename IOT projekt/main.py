@@ -5,6 +5,10 @@ import time
 import like
 import random
 import _thread
+import like
+import puls
+import gps
+import helpc
 lib = umqtt_robust2
 sensor = dht.DHT11(Pin(14))
 besked_p = ""
@@ -17,26 +21,53 @@ while True:
             lib.c.reconnect()
         else:
             lib.c.resubscribe()
-    def publishbesked():
-        global besked_p
-        lib.c.publish(tpic=lib.mqtt_pub_feedname, msg= besked_p)
-        lib.besked = ""
-        besked_p = ""
     try:
-        if besked == "hej bot":
-            besked_p = "Hej Master"
-            publishbesked()
-        if besked == "joke":
-            besked_p = jokes.joke_funktion(random.choice(joke_list))
-            publishbesked()
+        if besked == "help":
+            helpc.helpc()
         def like_counter()
             global besked
             if besked == "like":
                 like.like()
             time.sleep(0,2)
         def puls_timer()
+            status = 0
+            tid = 1
+            while True:
+            time.sleep(tid)
+            if besked == "stop puls":
+                status = 0
+            elif besked == "start puls":
+                status = 1
+            if status == 0:
+                pass
+            elif status == 1:
+                puls.puls()
         def kmt_timer()
+            status = 0
+            tid = 1
+            while True:
+            time.sleep(tid)
+            if besked == "stop kmt":
+                status = 0
+            elif besked == "start kmt":
+                status = 1
+            if status == 0:
+                pass
+            elif status == 1:
+                gps.kmt()
         def gps_timer()
+            status = 0
+            tid = 1
+            while True:
+            time.sleep(tid)
+            if besked == "stop gps":
+                status = 0
+            elif besked == "start gps":
+                status = 1
+            if status == 0:
+                pass
+            elif status == 1:
+                gps.gps()
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')
         lib.client.disconnect()

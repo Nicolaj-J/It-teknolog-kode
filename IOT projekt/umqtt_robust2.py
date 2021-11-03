@@ -75,6 +75,10 @@ c.set_callback(sub_cb)
 
 mqtt_pub_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_PUB_FEEDNAME), 'utf-8')
 mqtt_sub_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_SUB_FEEDNAME), 'utf-8')
+mqtt_gps_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_GPS_FEEDNAME), 'utf-8')
+mqtt_puls_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_PULS_FEEDNAME), 'utf-8')
+mqtt_kmt_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_KMT_FEEDNAME), 'utf-8')
+mqtt_led_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_LED_FEEDNAME), 'utf-8')
 if not c.connect(clean_session=False):
     print("New session being set up")
     c.subscribe(mqtt_sub_feedname)

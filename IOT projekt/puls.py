@@ -9,7 +9,9 @@ def puls():
         temp = puls.temperature()
         hum = puls.humidity()
         tempf =  temp * (9/5) + 32.0
-        return temp, hum, tempf
+        lib.c.publish(tpic=lib.mqtt_puls_feedname, msg= puls)
+        lib.besked = ""
     except:
         failed = "wasnt able to read sensor"
-        return failed
+        lib.c.publish(tpic=lib.mqtt_pub_feedname, msg= failed)
+        lib.besked = ""
