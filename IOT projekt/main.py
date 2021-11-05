@@ -24,6 +24,11 @@ while True:
     try:
         if besked == "help":
             helpc.helpc()
+        if besked == "tillægs tid" or "tillæg tid")
+            print("Hvor meget tillægs tid er der? skriv i sekunder"
+            kamp_tid.t_tid(input)
+        if besked == "kamp start":
+            kamp_tid.k_tid()
         def like_counter()
             global besked
             if besked == "like":
