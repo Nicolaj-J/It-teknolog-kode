@@ -1,3 +1,0 @@
-def gps():
-
-def kmt():

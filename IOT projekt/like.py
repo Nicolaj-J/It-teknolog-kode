@@ -1,24 +1,44 @@
-from machine import pin
+from machine import Pin
+import neopixel
 import time
-led_like = Pin(27, Pin.OUT, value=0)
-like_counter = Pin(25, Pin.IN, value=0)
-like_count = 0
-def like():
-    global like_count
-    global like_counter
-    global led_like
-    try:
-        for x in range (2):
-            led_like = not led_like.value(led_like.value())
-            time.sleep(0,5)
-        like_count = like_count + 1
-        like_counter = like_count
-     except:
-        failed = "Wasnt able to read sensor"
-        lib.c.publish(tpic=lib.mqtt_pub_feedname, msg= failed)
-        lib.besked = ""
-def like_reset():
-    global like_count
-    global like_counter
-    like_count = 0
-    like_counter = like_count
+import tm1637
+tm = tm1637.TM1637(clk=Pin(2), dio=Pin(0))
+
+# import umqtt_robust2
+# lib = umqtt_robust2
+n = 12
+p = 15
+np = neopixel.NeoPixel(Pin(p), n)
+tidl = 0
+
+def tid_like(tid):
+    tidl = tid
+
+def likes(r, g, b):
+    for i in range(n):
+        np[i] = (r, g, b)
+    np.write()
+    time.sleep(0.5)
+    for i in range(n):
+        np[i] = (0,0,0)
+        np.write()
+
+# def clear():
+#     for i in range(n):
+#         np[i] = (0,0,0)
+#         np.write()
+
+def likes_count(likes):
+    tm.brightness(6)
+    tm.number(int(likes))
+    print(likes)
+
+def start_up():
+    for i in range(n):
+        np[i] = (0,0,0)
+        np.write()
+    tm.number(0)
+
+
+
+
