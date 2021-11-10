@@ -1,8 +1,9 @@
 import umqtt_robust2
 from machine import Pin
-import gpsfunk
+import GPSfunk
 from time import sleep_ms, sleep
 import like
+import gps
 lib = umqtt_robust2
 like.start_up()
 likes = 0
@@ -34,12 +35,11 @@ while True:
             lib.c.publish(topic=lib.mqtt_gps_feedname, msg="poster på gps")
             lib.besked = ""
         if besked == "gps":
-            lib.c.publish(topic=lib.mqtt_gps_feedname, msg=gpsfunk.main())
-            speed = GPSfunk.main()
-            speed = speed[:4]
-            print("speed: ",speed)
-            lib.c.publish(topic=speedFeed, msg=speed)
-            sleep(10)
+            print("gps")
+            gps.gps_loc()
+            print("gps1")
+            gps.hastighed()
+            lib.besked = ""
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')
         lib.client.disconnect()
