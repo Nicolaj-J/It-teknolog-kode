@@ -4,6 +4,7 @@ import GPSfunk
 from time import sleep_ms, sleep
 import like
 import gps
+import _thread
 lib = umqtt_robust2
 like.start_up()
 likes = 0
@@ -40,6 +41,14 @@ while True:
             print("gps1")
             gps.hastighed()
             lib.besked = ""
+        def gps_lokation():
+            gps.gps_loc()
+        def gps_hastighed():
+            gps.hastighed()
+        if besked == "gps start":
+            gps.gps_loc("start")
+        if besked == "gps stop":
+            gps.gps_loc("stop")
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')
         lib.client.disconnect()
