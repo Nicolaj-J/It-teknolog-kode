@@ -2,16 +2,21 @@ import umqtt_robust2
 import GPSfunk
 from machine import Pin
 from time import sleep_ms, sleep
+import _thread
 lib = umqtt_robust2
-
-def gps_loc(A):
+def gps_loc(gps_status):
+    print(gps_status)
     while True:
-        if A == "start":
+
+        print(gps_status)
+        if gps_status == "start":
             print("gps_loc kører")
             lib.c.publish(topic=lib.mqtt_gps_feedname, msg=GPSfunk.main())
             sleep(5)
-        elif A == "stop":
+        elif gps_status == "stop":
+            print("gps_loc stoppet")
             break
+            _thread.exit()
 
 def hastighed():
     speed = GPSfunk.main()
