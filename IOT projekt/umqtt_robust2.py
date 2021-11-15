@@ -55,7 +55,7 @@ ADAFRUIT_IO_PUB_FEEDNAME = credentials["ADAFRUIT_IO_PUB_FEEDNAME"]
 ADAFRUIT_IO_SUB_FEEDNAME = credentials["ADAFRUIT_IO_SUB_FEEDNAME"]
 ADAFRUIT_IO_GPS_FEEDNAME = credentials["ADAFRUIT_IO_GPS_FEEDNAME"]
 ADAFRUIT_IO_KMT_FEEDNAME = credentials["ADAFRUIT_IO_KMT_FEEDNAME"]
-# ADAFRUIT_IO_PULS_FEEDNAME = credentials["ADAFRUIT_IO_PULS_FEEDNAME"]
+ADAFRUIT_IO_PULS_FEEDNAME = credentials["ADAFRUIT_IO_PULS_FEEDNAME"]
 c = MQTTClient(client_id=mqtt_client_id,
                     server=ADAFRUIT_IO_URL,
                     user=ADAFRUIT_USERNAME,
@@ -76,7 +76,7 @@ mqtt_pub_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_I
 mqtt_sub_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_SUB_FEEDNAME), 'utf-8')
 mqtt_gps_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_GPS_FEEDNAME), 'utf-8')
 mqtt_kmt_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_KMT_FEEDNAME), 'utf-8')
-# mqtt_puls_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_PULS_FEEDNAME), 'utf-8')
+mqtt_puls_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_PULS_FEEDNAME), 'utf-8')
 if not c.connect(clean_session=False):
     print("New session being set up")
     c.subscribe(mqtt_sub_feedname)

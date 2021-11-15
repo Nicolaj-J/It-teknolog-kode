@@ -6,6 +6,7 @@ import like
 import gps
 import _thread
 # import settings
+import puls_sensor
 lib = umqtt_robust2
 like.start_up()
 # _thread.start_new_thread(settings.setting, ("1",))
@@ -22,9 +23,6 @@ while True:
             lib.c.resubscribe()
     try:
         # Det er primært herinde at i skal tilfoeje kode
-        if besked == "hej":
-            lib.c.publish(topic=lib.mqtt_pub_feedname, msg="Hej Master")
-            lib.besked = ""
         if besked == "like":
             like.likes(70, 204, 235)
             likes = likes + 1
@@ -34,15 +32,16 @@ while True:
             likes = 0
             print(likes)
             lib.besked = ""
-        if besked == "test":
-            lib.c.publish(topic=lib.mqtt_gps_feedname, msg="poster på gps")
-            lib.besked = ""
         if besked == "gps start":
             gps_status = 1
-            _thread.start_new_thread(gps.gps_loc, ("start",))
+            _thread.start_new_thread(gps.gps_loc, ())
             lib.besked = ""
-        if besked == "gps stop":
-            _thread.start_new_thread(gps.gps_loc, ("stop",))
+        if besked == "hastighed start":
+            _thread.start_new_thread(gps.hastighed, ())
+            lib.besked = ""
+        if besked == "start puls":
+            _thread.start_new_thread(puls_sensor.puls_funktion, ())
+            _thread.start_new_thread(puls_sensor.timer, ())
             lib.besked = ""
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')
