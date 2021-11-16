@@ -31,7 +31,11 @@ def timer():
         global puls_list
         puls_BPM = len(puls_list) * 6
         print(puls_BPM)
-        lib.c.publish(topic=lib.mqtt_puls_feedname, msg=str(puls_BPM))
+        if puls_BPM != 0:
+            lib.c.publish(topic=lib.mqtt_puls_feedname, msg=str(puls_BPM))
+            lib.c.publish(topic=lib.mqtt_debug_feedname, msg=str("puls 1"))
+        else:
+            lib.c.publish(topic=lib.mqtt_debug_feedname, msg=str("puls 0"))
         puls_list.clear()
 
 

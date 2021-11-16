@@ -7,7 +7,7 @@ lib = umqtt_robust2
 def gps_loc():
     while True:
         lib.c.publish(topic=lib.mqtt_gps_feedname, msg=GPSfunk.main())
-        sleep(5)
+        sleep(10)
 
 def hastighed():
     while True:
@@ -15,5 +15,6 @@ def hastighed():
         speed = speed[:4]
         print("speed: ",speed)
         lib.c.publish(topic=lib.mqtt_kmt_feedname, msg=speed)
-        sleep(5)
+        lib.c.publish(topic=lib.mqtt_debug_feedname, msg=str("kmt 1"))
+        sleep(10)
 
