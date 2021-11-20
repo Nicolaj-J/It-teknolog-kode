@@ -5,11 +5,10 @@ from time import sleep_ms, sleep
 import like
 import gps
 import _thread
-# import settings
 import puls_sensor
 lib = umqtt_robust2
-like.start_up()
-# _thread.start_new_thread(settings.setting, ("1",))
+like.start_up() #Devicet køre start funktionen for tæller og led ring
+lib.c.publish(topic=lib.mqtt_pub_feedname, msg="device connected") #Devicet skriver ud når den er har forbundet op til adafruit og alle startups fungere
 likes = 0
 while True:
     sleep_ms(500)
@@ -22,7 +21,11 @@ while True:
         else:
             lib.c.resubscribe()
     try:
-        # Det er primært herinde at i skal tilfoeje kode
+        """Her sortere vi i den data der bliver sendt til devicet.
+           Vi fordeler ud på funktioner og nogle bliver lavet til tråde """
+        if besked == "test":
+            lib.c.publish(topic=lib.mqtt_pub_feedname, msg="Forbundet")
+            lib.besked = ""
         if besked == "like":
             like.likes(70, 204, 235)
             likes = likes + 1
@@ -30,18 +33,25 @@ while True:
             lib.besked = ""
         if besked == "like reset":
             likes = 0
-            print(likes)
+            like.likes_count(likes)
             lib.besked = ""
-        if besked == "gps start":
-            gps_status = 1
-            _thread.start_new_thread(gps.gps_loc, ())
+        if lib.gpsbesked == "gps start":
+            _thread.start_new_thread(gps.gps_status, ("start",))
             lib.besked = ""
-        if besked == "hastighed start":
-            _thread.start_new_thread(gps.hastighed, ())
+        if lib.gpsbesked == "gps stop":
+            _thread.start_new_thread(gps.gps_status, ("stop",))
             lib.besked = ""
-        if besked == "start puls":
-            _thread.start_new_thread(puls_sensor.puls_funktion, ())
-            _thread.start_new_thread(puls_sensor.timer, ())
+        if lib.kmtbesked == "hastighed start":
+            gps.hastighed_status("start")
+            lib.besked = ""
+        if lib.kmtbesked == "hastighed stop":
+            gps.hastighed_status("stop")
+            lib.besked = ""
+        if lib.pulsbesked == "puls start":
+            puls_sensor.puls_styring("start")
+            lib.besked = ""
+        if lib.pulsbesked == "puls stop":
+            puls_sensor.puls_styring("stop")
             lib.besked = ""
     except KeyboardInterrupt:
         print('Ctrl-C pressed...exiting')

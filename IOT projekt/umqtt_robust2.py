@@ -32,12 +32,32 @@ if attempt_count == MAX_ATTEMPTS:
     print('could not connect to the WiFi network')
     sys.exit()
 besked = ""
-def sub_cb(topic, msg, retained, duplicate):
+kmtbesked = ""
+pulsbesked = ""
+gpsbesked = ""
+def sub_cb(topic, msg, retained, duplicate): #Her tilføjer nogle flere feeds der bliver subscribet på.
     #print((topic, msg, retained, duplicate))
-    m = msg.decode('utf-8')
-    global besked
-    besked = m.lower()
-    print(besked)
+    print(topic, msg)
+    if topic == b'Nicolaj_j/feeds/bot_sub':
+        m = msg.decode('utf-8')
+        global besked
+        besked = m.lower()
+        print(besked)
+    elif topic == b'Nicolaj_j/feeds/bot-debug-puls':
+        m = msg.decode('utf-8')
+        global pulsbesked
+        pulsbesked = m.lower()
+        print(pulsbesked)
+    elif topic == b'Nicolaj_j/feeds/bot-debug-kmt':
+        m = msg.decode('utf-8')
+        global kmtbesked
+        kmtbesked = m.lower()
+        print(kmtbesked)
+    elif topic == b'Nicolaj_j/feeds/bot-debug-gps':
+        m = msg.decode('utf-8')
+        global gpsbesked
+        gpsbesked = m.lower()
+        print(gpsbesked)
 # create a random MQTT clientID
 random_num = int.from_bytes(os.urandom(3), 'little')
 mqtt_client_id = bytes('client_'+str(random_num), 'utf-8')
@@ -56,7 +76,9 @@ ADAFRUIT_IO_SUB_FEEDNAME = credentials["ADAFRUIT_IO_SUB_FEEDNAME"]
 ADAFRUIT_IO_GPS_FEEDNAME = credentials["ADAFRUIT_IO_GPS_FEEDNAME"]
 ADAFRUIT_IO_KMT_FEEDNAME = credentials["ADAFRUIT_IO_KMT_FEEDNAME"]
 ADAFRUIT_IO_PULS_FEEDNAME = credentials["ADAFRUIT_IO_PULS_FEEDNAME"]
-ADAFRUIT_IO_DEBUG_FEEDNAME = credentials["ADAFRUIT_IO_DEBUG_FEEDNAME"]
+ADAFRUIT_IO_DEBUG_PULS_FEEDNAME = credentials["ADAFRUIT_IO_DEBUG_PULS_FEEDNAME"]
+ADAFRUIT_IO_DEBUG_KMT_FEEDNAME = credentials["ADAFRUIT_IO_DEBUG_KMT_FEEDNAME"]
+ADAFRUIT_IO_DEBUG_GPS_FEEDNAME = credentials["ADAFRUIT_IO_DEBUG_GPS_FEEDNAME"]
 
 c = MQTTClient(client_id=mqtt_client_id,
                     server=ADAFRUIT_IO_URL,
@@ -79,9 +101,14 @@ mqtt_sub_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_I
 mqtt_gps_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_GPS_FEEDNAME), 'utf-8')
 mqtt_kmt_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_KMT_FEEDNAME), 'utf-8')
 mqtt_puls_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_PULS_FEEDNAME), 'utf-8')
-mqtt_debug_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_DEBUG_FEEDNAME), 'utf-8')
+mqtt_debug_puls_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_DEBUG_PULS_FEEDNAME), 'utf-8')
+mqtt_debug_kmt_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_DEBUG_KMT_FEEDNAME), 'utf-8')
+mqtt_debug_gps_feedname = bytes('{:s}/feeds/{:s}'.format(ADAFRUIT_USERNAME, ADAFRUIT_IO_DEBUG_GPS_FEEDNAME), 'utf-8')
 if not c.connect(clean_session=False):
     print("New session being set up")
     c.subscribe(mqtt_sub_feedname)
+    c.subscribe(mqtt_debug_puls_feedname)
+    c.subscribe(mqtt_debug_kmt_feedname)
+    c.subscribe(mqtt_debug_gps_feedname)
 
 

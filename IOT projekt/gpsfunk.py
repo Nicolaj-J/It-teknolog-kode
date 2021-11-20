@@ -2,6 +2,7 @@ from machine import UART
 from micropyGPS import MicropyGPS
 import umqtt_robust2
 lib = umqtt_robust2
+import time
 
 def main():
     uart = UART(2, baudrate=9600, bits=8, parity=None, stop=1, timeout=5000, rxbuf=1024)
@@ -34,10 +35,10 @@ def main():
         # _thread.start_new_thread(main, ())
         if formattedLat != "0.0":
             print("gps_ada: ",gps_ada)
-            lib.c.publish(topic=lib.mqtt_debug_feedname, msg=str("gps 1"))
             return gps_ada
-        else:
-            lib.c.publish(topic=lib.mqtt_debug_feedname, msg=str("gps 0"))
+
+
+
 if __name__ == "__main__":
     print('...running main, GPS testing')
     main()
