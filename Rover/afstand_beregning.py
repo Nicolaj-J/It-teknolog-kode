@@ -36,7 +36,7 @@ def afstand_højre():
         global tid
         distance_ven = sensor_højre.distance_cm()
         listeven.append(distance_ven)
-        sleep(tid)
+        sleep(5)
         avgh = sum(listehøj)/len(listehøj)
         print("avgh: ", avgh)
         if len(listehøj) >= 10 :
@@ -50,7 +50,7 @@ def afstand_venstre():
         global tid
         distance_ven = sensor_venstre.distance_cm()
         listeven.append(distance_ven)
-        sleep(tid)
+        sleep(5)
         avgv = sum(listeven)/len(listeven)
         print("avgv: ", avgv)
         if len(listeven) >= 10 :
@@ -63,10 +63,10 @@ def afstand_beregning():
     while(control_var == 1):
         global avgv
         global avgh
+        sleep(5)
         avg = avgv - avgh
         listeavg.append(avg)
         print("avg: ", avg)
-
         if len(listeavg) == 10:
             listeavg.pop(0)
 
