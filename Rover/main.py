@@ -1,12 +1,10 @@
-import afstand_beregning
+import servo1, servo2, servo3, servo4
+import servostyring
+import _thread
 
-
-command = ""
-command = input()
-if command == "start afstand":
-    afstand_beregning.control_funktion_afstand(1)
-    command = ""
-elif command == "Stop afstand":
-    afstand_beregning.control_funktion_afstand(0)
-    command = ""
-
+while(True):
+    x = input()
+    if(x == "start"):
+        servostyring.servo1control("start")
+    elif(x == "stop"):
+        servostyring.servo1control("stop")
