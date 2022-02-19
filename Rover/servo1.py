@@ -1,33 +1,43 @@
 from time import sleep, sleep_ms
 from machine import Pin, PWM, ADC
-import servostyring
+import joystickstyring
 import _thread
-joy1x = ADC(Pin(33))
-def servo1stat():
-    servo1max = 120
-    servo1min = 75
-    servo1norm = 75
-    i1 = servo1norm
-    x = 75
+servo1=PWM(Pin(""),freq=50) #Indtast pin
+joy1x = ADC(Pin(34))
+joy1x.atten(ADC.ATTN_11DB)
+joy1x.width(ADC.WIDTH_12BIT)
 
-status = 0
-def servo1checker():
-    return servostyring.servo1control("check")
-def servo1styring():
-    print("servostyring")
-    status = 1
-    o = 0
-    servo1stat()
-    # servo1=PWM(Pin(22),freq=50)
-    while(status == 1):
-        status == servo1checker()
-        if(x < servo1max):
-            print("ændre servo værdi", x)# servo1.duty(x)
-            x = x + 1
-            if(x == servo1max):
-                o = 1
-        if(x > servo1min ):
-            print("ændre servo værdi", x) # servo1.duty(x)
-            x = x - 1
-            if(x == servo1min):
-                o = 0
+class Servo1Stat:
+    servomax = 120
+    servomin = 75
+    servonorm = 75
+    hastighed = 100
+    joystickmin = 1700
+    joystickmax = 2100
+    
+def Joystick1xRead():
+       x = joy1x.read()
+       return x
+
+def Servo1():
+    servo1.duty(Servo1Stat.servonorm)
+    check = joystickstyring.JoystickStyring("check")
+    while(check == True):
+        check = joystickstyring.JoystickStyring("check")
+        x = Joystick1xRead()
+        print("x1: ", x)
+        sleep(1)
+        if(x <= Servo1Stat.joystickmin):
+            while(i >= Servo1Stat.servomin and x <= Servo1Stat.joystickmin and check == True):
+                check = joystickstyring.JoystickStyring("check")
+                x = Joystick1xRead()
+                servo1.duty(i)
+                i = i - 1
+                sleep_ms(Servo1Stat.hastighed)
+        if(x >= Servo1Stat.joystickmax): 
+            while(Servo1Stat.servomax and x >= Servo1Stat.joystickmax and check == True):
+                check = joystickstyring.JoystickStyring("check")
+                x = Joystick1xRead()
+                servo1.duty(i)
+                i = i + 1
+                sleep_ms(Servo1Stat.hastighed)

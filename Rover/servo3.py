@@ -1,23 +1,43 @@
 from time import sleep, sleep_ms
 from machine import Pin, PWM, ADC
+import joystickstyring
 import _thread
-servo3=PWM(Pin(21),freq=50)
-servo3max = 120
-servo3min = 20
-servo3norm = 70
-i3 = servo3norm
-x = 75
-o = 0
-def servo3checker():
-    sleep(1)
-def servo3styring():
-    if(x < servo3max and o != 1):
-        servo3.duty(x)
-        x = x + 1
-        if(x == servo3max):
-            o = 1
-    if(x > servo3min and o != 0):
-        servo3.duty(x)
-        x = x - 1
-        if(x == servo3min):
-            o = 0
+servo3=PWM(Pin(""),freq=50) #Indtast pin
+joy2x = ADC(Pin(33))
+joy2x.atten(ADC.ATTN_11DB)
+joy2x.width(ADC.WIDTH_12BIT)
+
+class Servo3Stat:
+    servomax = 120
+    servomin = 75
+    servonorm = 75
+    hastighed = 100
+    joystickmin = 1700
+    joystickmax = 2100
+
+def Joystick2xRead():
+       x = joy2x.read()
+       return x
+
+def Servo3():
+    servo3.duty(Servo3Stat.servonorm)
+    check = joystickstyring.JoystickStyring("check")
+    while(check == True):
+        check = joystickstyring.JoystickStyring("check")
+        x = Joystick2xRead()
+        print("x2: ", x)
+        sleep(1)
+        if(x <= Servo3Stat.joystickmin):
+            while(i >= Servo3Stat.servo3min and x <= Servo3Stat.joystickmin and check == True):
+                check = joystickstyring.JoystickStyring("check")
+                x = Joystick2xRead()
+                servo3.duty(i)
+                i = i - 1
+                sleep_ms(Servo3Stat.hastighed)
+        if(x >= Servo3Stat.joystickmax): 
+            while(Servo3Stat.servo3max and x >= Servo3Stat.joystickmax and check == True):
+                check = joystickstyring.JoystickStyring("check")
+                x = Joystick2xRead()
+                servo3.duty(i)
+                i = i + 1
+                sleep_ms(Servo3Stat.hastighed)
