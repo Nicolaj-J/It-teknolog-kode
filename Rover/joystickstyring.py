@@ -10,5 +10,5 @@ def JoystickStyring(message):
     if(message == "motor"):
         joycontrol = False
 
-def ReadjoyStickInput():
-    sleep(1)
+def ReadjoyStickInput(): #skal laves til at kunne måle knap funktion på joystick. Dette skal styre om det er servo 
+    sleep(1)             #eller motor joystickene styre
