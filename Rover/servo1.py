@@ -17,9 +17,10 @@ def Servo1():
     servo1=PWM(Pin(23),freq=50)
     servo1.duty(Servo1Stat.servonorm)
     check = Servo1Stat.servooption
+    i = Servo1Stat.servonorm
     print(check)
     while(check == True):
-        sleep_ms(100)
+        sleep_ms(int(100))
         check = Servo1Stat.servooption
         print(Servo1Stat.joystickmeasurement)
         y = int(Servo1Stat.joystickmeasurement)
