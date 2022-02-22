@@ -45,5 +45,4 @@ while True:
         x = ""
         chooseservo = ""
         value = ""
-        time.sleep(0.1)
 
