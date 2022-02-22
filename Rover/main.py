@@ -21,7 +21,7 @@ while True:
         chooseservo = x[0:2]
         value = x[2:6]
         if(chooseservo == "b1" and servo1.Servo1Stat.servooption != 1 ):
-            servo1.Servo1Stat.servooption = 1
+            servo1.Servo1Stat.servooption = True
             # servo2.Servo2Stat.servooption = 1
             # servo3.Servo3Stat.servooption = 1
             # servo4.Servo4Stat.servooption = 1
@@ -30,7 +30,7 @@ while True:
             # _thread.start_new_thread(servo3.Servo3, ())
             # _thread.start_new_thread(servo4.Servo4, ())
         if(chooseservo == "b2" and servo1.Servo1Stat.servooption != 0):
-            servo1.Servo1Stat.servooption = 0
+            servo1.Servo1Stat.servooption = False
             # servo2.Servo2Stat.servooption = 0
             # servo3.Servo3Stat.servooption = 0
             # servo4.Servo4Stat.servooption = 0
