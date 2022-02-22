@@ -10,30 +10,34 @@ class Servo1Stat:
     joystickmeasurement = 2048
     joystickmax = 2100
     joystickmin = 1700
-    servooption = False
+    servooption = 1
 
 def Servo1():
+
     servo1=PWM(Pin(23),freq=50)
     servo1.duty(Servo1Stat.servonorm)
     check = Servo1Stat.servooption
-    while(check == True):
+    print(Servo1Stat.servooption)
+    while(check == float(1)):
+        sleep_ms(0.1)
         check = Servo1Stat.servooption
-        y = Servo1Stat.joystickmeasurement
-        print("servo1: ", y)
+        print(Servo1Stat.joystickmeasurement)
+        y = int(Servo1Stat.joystickmeasurement)
+        print(y)
         sleep(1)
-        if(y <= Servo1Stat.joystickmin):
-            while(i >= Servo1Stat.servomin and y <= Servo1Stat.joystickmin and check == True):
+        if(int(y) <= int(Servo1Stat.joystickmin)):
+            while(i >= Servo1Stat.servomin and y <= Servo1Stat.joystickmin and check == float(1)):
                 check = Servo1Stat.servooption
-                y = Servo1Stat.joystickmeasurement
+                y = int(Servo1Stat.joystickmeasurement)
                 print("servo 1,1")
-                servo2.duty(i)
+                servo1.duty(i)
                 i = i + 1
                 sleep_ms(Servo1Stat.hastighed)
-        if(y >= Servo1Stat.joystickmax):
-            while(Servo1Stat.servomax and y >= Servo1Stat.joystickmax and check == True):
+        if(y >= int(Servo1Stat.joystickmax)):
+            while(Servo1Stat.servomax and y >= Servo1Stat.joystickmax and check == float(1)):
                 check = Servo1Stat.servooption
-                y = Servo1Stat.joystickmeasurement
+                y = int(Servo1Stat.joystickmeasurement)
                 print("servo 1,1")
-                servo4.duty(i)
+                servo1.duty(i)
                 i = i + 1
                 sleep_ms(Servo1Stat.hastighed)

@@ -13,19 +13,22 @@ class Servo2Stat:
     servooption = False
 
 def Servo2():
+
     servo2=PWM(Pin(22),freq=50)
-    servo4.duty(Servo4Stat.servonorm)
+    servo2.duty(Servo2Stat.servonorm)
     check = Servo2Stat.servooption
     while(check == True):
+        
         check = Servo2Stat.servooption
         y = Servo2Stat.joystickmeasurement
-        print("y1: ", y)
         sleep(1)
+
         if(y <= Servo2Stat.joystickmin):
-            while(i >= Servo2tat.servomin and y <= Servo2Stat.joystickmin and check == True):
+            while(i >= Servo2Stat.servomin and y <= Servo2Stat.joystickmin and check == True):
                 check = Servo2Stat.servooption
                 y = Servo2Stat.joystickmeasurement
                 servo2.duty(i)
+
                 i = i - 1
                 sleep_ms(Servo2Stat.hastighed)
         if(y >= Servo2Stat.joystickmax):
@@ -33,5 +36,6 @@ def Servo2():
                 check = Servo2Stat.servooption
                 y = Servo2Stat.joystickmeasurement
                 servo2.duty(i)
+
                 i = i + 1
                 sleep_ms(Servo2Stat.hastighed)

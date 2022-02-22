@@ -19,13 +19,12 @@ def Servo4():
     while(check == True):
         check = Servo4Stat.servooption
         y = Servo4Stat.joystickmeasurement
-        print("y1: ", y)
         sleep(1)
         if(y <= Servo4Stat.joystickmin):
             while(i >= Servo4Stat.servomin and y <= Servo4Stat.joystickmin and check == True):
                 check = Servo4Stat.servooption
                 y = Servo4Stat.joystickmeasurement
-                servo2.duty(i)
+                servo4.duty(i)
                 i = i - 1
                 sleep_ms(Servo4Stat.hastighed)
         if(y >= Servo4Stat.joystickmax):
