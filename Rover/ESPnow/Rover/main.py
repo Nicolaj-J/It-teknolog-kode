@@ -19,6 +19,7 @@ while True:
         x = msg.decode('utf-8')
         chooseservo = x[0:2]
         value = x[2:6]
+        print(chooseservo, " ", value, " ", x)
         if(chooseservo == "b1"):
             servo1.Servo1Stat.servooption = True
             servo2.Servo2Stat.servooption = True

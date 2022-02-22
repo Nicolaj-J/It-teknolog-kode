@@ -13,7 +13,7 @@ class Servo4Stat:
     servooption = False
 
 def Servo4():
-    servo4=PWM(Pin(19),freq=50)
+    servo4=PWM(Pin(18),freq=50)
     servo4.duty(Servo4Stat.servonorm)
     check = Servo4Stat.servooption
     while(check == True):
