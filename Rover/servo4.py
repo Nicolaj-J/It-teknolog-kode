@@ -13,24 +13,27 @@ class Servo4Stat:
     servooption = False
 
 def Servo4():
-    servo4=PWM(Pin(18),freq=50)
-    servo4.duty(Servo4Stat.servonorm)
+
+    servo1=PWM(Pin(18),freq=50)
+    servo1.duty(Servo4Stat.servonorm)
     check = Servo4Stat.servooption
+    i = Servo4Stat.servonorm
     while(check == True):
+        sleep_ms(int(100))
         check = Servo4Stat.servooption
-        y = Servo4Stat.joystickmeasurement
+        y = int(Servo4Stat.joystickmeasurement)
         sleep(1)
-        if(y <= Servo4Stat.joystickmin):
-            while(i >= Servo4Stat.servomin and y <= Servo4Stat.joystickmin and check == True):
+        if(int(y) <= int(Servo4Stat.joystickmin)):
+            while(i > Servo4Stat.servomin and y <= Servo4Stat.joystickmin and check == True):
                 check = Servo4Stat.servooption
-                y = Servo4Stat.joystickmeasurement
-                servo4.duty(i)
+                y = int(Servo4Stat.joystickmeasurement)
+                servo1.duty(i)
                 i = i - 1
                 sleep_ms(Servo4Stat.hastighed)
-        if(y >= Servo4Stat.joystickmax):
-            while(Servo4Stat.servomax and y >= Servo4Stat.joystickmax and check == True):
+        if(y >= int(Servo4Stat.joystickmax)):
+            while(i < Servo4Stat.servomax and y >= Servo4Stat.joystickmax and check == True):
                 check = Servo4Stat.servooption
-                y = Servo4Stat.joystickmeasurement
-                servo4.duty(i)
+                y = int(Servo4Stat.joystickmeasurement)
+                servo1.duty(i)
                 i = i + 1
                 sleep_ms(Servo4Stat.hastighed)

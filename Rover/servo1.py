@@ -18,13 +18,10 @@ def Servo1():
     servo1.duty(Servo1Stat.servonorm)
     check = Servo1Stat.servooption
     i = Servo1Stat.servonorm
-    print(check)
     while(check == True):
         sleep_ms(int(100))
         check = Servo1Stat.servooption
-        print(Servo1Stat.joystickmeasurement)
         y = int(Servo1Stat.joystickmeasurement)
-        print(y)
         sleep(1)
         if(int(y) <= int(Servo1Stat.joystickmin)):
             while(i > Servo1Stat.servomin and y <= Servo1Stat.joystickmin and check == True):
