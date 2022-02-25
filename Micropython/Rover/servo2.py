@@ -3,9 +3,9 @@ from machine import Pin, PWM, ADC
 import _thread
 
 class Servo2Stat:
-    servomax = 75
-    servomin = 48
-    servonorm = 48
+    servomax = 120
+    servomin = 20
+    servonorm = 70
     hastighed = 100
     joystickmeasurement = 2048
     joystickmax = 2100
@@ -19,10 +19,10 @@ def Servo2():
     check = Servo2Stat.servooption
     i = Servo2Stat.servonorm
     while(check == True):
-        sleep_ms(int(100))
+        sleep_ms(int(Servo2Stat.hastighed))
         check = Servo2Stat.servooption
         y = int(Servo2Stat.joystickmeasurement)
-        sleep(1)
+        sleep(Servo1Stat.hastighed)
         if(int(y) <= int(Servo2Stat.joystickmin)):
             while(i > Servo2Stat.servomin and y <= Servo2Stat.joystickmin and check == True):
                 check = Servo2Stat.servooption

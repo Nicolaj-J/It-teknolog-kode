@@ -1,0 +1,8 @@
+print("hello world")
+print("Hej igen")
+print("det er fedt nok at printe!")
+print("vi laver lige et print mere.")
+print('sådan kan vi også printe')
+print("go´stil med 'enelte anførelsestegn'")
+print('vi kan også printe "gåseøjne" sådan her')
+print("vi kan bruge '\n' for at lave linje skift midt i det hele")

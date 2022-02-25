@@ -4,7 +4,7 @@ from machine import Pin, PWM, ADC
 import time
 import _thread
 import servo1, servo2, servo3, servo4
-import servo1
+
 # A WLAN interface must be active to send()/recv()
 w0 = network.WLAN(network.STA_IF)
 w0.active(True)
