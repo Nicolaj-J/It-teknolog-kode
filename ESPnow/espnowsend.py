@@ -13,4 +13,6 @@ e.add_peer(peer)
 e.send("Starting...")       # Send to all peers
 for i in range(100):
     e.send(peer, str(i)*20, True)
-    e.send(b'end')
+    variable = "end"
+    variable_encoded = variable.encode('utf-8')
+    e.send(variable)

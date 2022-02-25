@@ -15,9 +15,7 @@ e.add_peer(peer)
 while True:
     host, msg = e.irecv()     # Available on ESP32 and ESP8266
     if msg:             # msg == None if timeout in irecv()
-        print(host, msg)
-        print(type(msg))
-        if msg == int:
-            servo1.duty(msg)
+        message = data.encode('utf-8')
+        print(host, message)
         if msg == b'end':
             break
