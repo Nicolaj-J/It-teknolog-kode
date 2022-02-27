@@ -25,6 +25,7 @@ while True:
             servo2.Servo2Stat.servooption = True
             servo3.Servo3Stat.servooption = True
             servo4.Servo4Stat.servooption = True
+            time.sleep(0.5)
             _thread.start_new_thread(servo1.Servo1, ())
             _thread.start_new_thread(servo2.Servo2, ())
             _thread.start_new_thread(servo3.Servo3, ())

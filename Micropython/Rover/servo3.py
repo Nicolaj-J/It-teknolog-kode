@@ -4,8 +4,8 @@ import _thread
 
 class Servo3Stat:
     servomax = 90
-    servomin = 35
-    servonorm = 48
+    servomin = 75
+    servonorm = 75
     hastighed = 100
     joystickmeasurement = 2048
     joystickmax = 2100
@@ -18,11 +18,12 @@ def Servo3():
     servo3.duty(Servo3Stat.servonorm)
     check = Servo3Stat.servooption
     i = Servo3Stat.servonorm
+    print("servo3 startet")
     while(check == True):
         sleep_ms(int(Servo3Stat.hastighed))
         check = Servo3Stat.servooption
         y = int(Servo3Stat.joystickmeasurement)
-        sleep(Servo1Stat.hastighed)
+        # print("servo3 ", Servo3Stat.joystickmeasurement)
         if(int(y) <= int(Servo3Stat.joystickmin)):
             while(i > Servo3Stat.servomin and y <= Servo3Stat.joystickmin and check == True):
                 check = Servo3Stat.servooption

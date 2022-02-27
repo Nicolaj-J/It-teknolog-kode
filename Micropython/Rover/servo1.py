@@ -14,15 +14,16 @@ class Servo1Stat:
 
 def Servo1():
 
-    servo1=PWM(Pin(23),freq=50)
+    servo1 = PWM(Pin(23),freq=50)
     servo1.duty(Servo1Stat.servonorm)
     check = Servo1Stat.servooption
     i = Servo1Stat.servonorm
+    print("servo1 startet")
     while(check == True):
         sleep_ms(int(Servo1Stat.hastighed))
         check = Servo1Stat.servooption
         y = int(Servo1Stat.joystickmeasurement)
-        sleep(Servo1Stat.hastighed)
+#         print("servo1 ", Servo1Stat.joystickmeasurement)
         if(int(y) <= int(Servo1Stat.joystickmin)):
             while(i > Servo1Stat.servomin and y <= Servo1Stat.joystickmin and check == True):
                 check = Servo1Stat.servooption

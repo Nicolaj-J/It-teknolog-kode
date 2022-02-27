@@ -18,11 +18,12 @@ def Servo4():
     servo4.duty(Servo4Stat.servonorm)
     check = Servo4Stat.servooption
     i = Servo4Stat.servonorm
+    print("servo4 startet")
     while(check == True):
         sleep_ms(int(Servo4Stat.hastighed))
         check = Servo4Stat.servooption
         y = int(Servo4Stat.joystickmeasurement)
-        sleep(Servo1Stat.hastighed)
+        print("servo4 ", Servo4Stat.joystickmeasurement)
         if(int(y) <= int(Servo4Stat.joystickmin)):
             while(i > Servo4Stat.servomin and y <= Servo4Stat.joystickmin and check == True):
                 check = Servo4Stat.servooption
