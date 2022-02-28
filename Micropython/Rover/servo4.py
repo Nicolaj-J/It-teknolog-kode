@@ -23,7 +23,7 @@ def Servo4():
         sleep_ms(int(Servo4Stat.hastighed))
         check = Servo4Stat.servooption
         y = int(Servo4Stat.joystickmeasurement)
-        print("servo4 ", Servo4Stat.joystickmeasurement)
+#         print("servo4 ", Servo4Stat.joystickmeasurement)
         if(int(y) <= int(Servo4Stat.joystickmin)):
             while(i > Servo4Stat.servomin and y <= Servo4Stat.joystickmin and check == True):
                 check = Servo4Stat.servooption
