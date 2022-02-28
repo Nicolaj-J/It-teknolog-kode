@@ -14,3 +14,4 @@ def SendData(data):
     x = data.encode('utf-8')
     print(x)
     e.send(x)
+

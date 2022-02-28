@@ -33,7 +33,7 @@ def Joystick2x():
     joy2x.width(ADC.WIDTH_12BIT)
     while(True):
         measurement = joy2x.read()
-        besked = "y2" + str(measurement)
+        besked = "x2" + str(measurement)
         sendingdata.SendData(besked)
 def Joystick2y():
     joy2y = ADC(Pin(32))
