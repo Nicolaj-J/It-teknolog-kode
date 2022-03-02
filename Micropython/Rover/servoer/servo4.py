@@ -3,10 +3,10 @@ from machine import Pin, PWM, ADC
 import _thread
 
 class Servo4Stat:
-    servomax = 75
-    servomin = 50
+    servomax = 85
+    servomin = 45
     servonorm = 50
-    hastighed = 100
+    hastighed = 50
     joystickmeasurement = 2048
     joystickmax = 2100
     joystickmin = 1700
@@ -29,6 +29,7 @@ def Servo4():
                 check = Servo4Stat.servooption
                 y = int(Servo4Stat.joystickmeasurement)
                 servo4.duty(i)
+                print("servo 4", i)
                 i = i - 1
                 sleep_ms(Servo4Stat.hastighed)
         if(y >= int(Servo4Stat.joystickmax)):
@@ -36,5 +37,6 @@ def Servo4():
                 check = Servo4Stat.servooption
                 y = int(Servo4Stat.joystickmeasurement)
                 servo4.duty(i)
+                print("servo 4", i)
                 i = i + 1
                 sleep_ms(Servo4Stat.hastighed)

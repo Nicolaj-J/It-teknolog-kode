@@ -6,7 +6,7 @@ class Servo2Stat:
     servomax = 120
     servomin = 20
     servonorm = 70
-    hastighed = 100
+    hastighed = 50
     joystickmeasurement = 2048
     joystickmax = 2100
     joystickmin = 1700

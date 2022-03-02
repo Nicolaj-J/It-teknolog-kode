@@ -1,0 +1,25 @@
+# Write your code here :-)
+from machine import Pin,PWM
+
+
+HøjreHbroStyring = Pin(4, Pin.OUT)
+VenstreHbroStyring = Pin(12, Pin.OUT)
+HøjreFrontHjulDirection = Pin(17, Pin.OUT)
+HøjreBagHjulDirection = Pin(0, Pin.OUT)
+VenstreFrontHjulDirection = Pin(27, Pin.OUT)
+VenstreBagHjulDirection =Pin(13, Pin.OUT)
+HøjreFrontHjulHastighed = PWM(Pin(16),freq=50)
+HøjreBagHjulHastighed = PWM(Pin(15),freq=50)
+VenstreFrontHjulHastighed = PWM(Pin(26),freq=50)
+VenstreBagHjulHastighed  = PWM(Pin(12),freq=50)
+
+HøjreHbroStyring.value(0)
+VenstreHbroStyring.value(0)
+HøjreFrontHjulDirection.value(0)
+HøjreBagHjulDirection.value(0)
+VenstreFrontHjulDirection.value(0)
+VenstreBagHjulDirection.value(0)
+HøjreFrontHjulHastighed.duty(0)
+HøjreBagHjulHastighed.duty(0)
+VenstreFrontHjulHastighed.duty(0)
+VenstreBagHjulHastighed.duty(0)
