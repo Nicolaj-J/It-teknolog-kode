@@ -7,12 +7,10 @@ w0.active(True)
 
 e = espnow.ESPNow()
 e.init()
-peer = b'\x08:\xf2\xac4\xc4'   # MAC address of peer's wifi interface
+peer = b'\x08:\xf2\xab^\xdc'   # MAC address of peer's wifi interface
 e.add_peer(peer)
 
-e.send("Starting...")       # Send to all peers
-for i in range(100):
-    e.send(peer, str(i)*20, True)
-    variable = "end"
-    variable_encoded = variable.encode('utf-8')
-    e.send(variable)
+def SendData(data):
+    x = data.encode('utf-8')
+    print(x)
+    e.send(x)

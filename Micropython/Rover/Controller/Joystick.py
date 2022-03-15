@@ -7,7 +7,7 @@ tm = tm1637.TM1637(clk=Pin(2), dio=Pin(0))
 
 class Joystickmode:
     mode = 1
-    modes = "a"
+    modes = ""
     tlmode = 1
 
 tm.numbers(Joystickmode.mode,Joystickmode.tlmode)

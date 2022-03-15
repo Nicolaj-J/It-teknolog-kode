@@ -5,7 +5,7 @@ w0 = network.WLAN(network.STA_IF)  # Or network.AP_IF
 w0.active(True)
 e = espnow.ESPNow()
 e.init()
-peer = b'\x08:\xf2\xac4\xc4'   # MAC address of peer's wifi interface
+peer = b'\x08:\xf2\xac\t<'   # MAC address of peer's wifi interface
 e.add_peer(peer)
 
 def SendData(data):
