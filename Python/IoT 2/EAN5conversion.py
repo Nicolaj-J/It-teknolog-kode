@@ -51,6 +51,3 @@ def dato_konvertering(x):
         måned = måned + 1
     dato = f"{dage}/{måned}/{år}" 
     return dato
-
-konvertering = dato_konvertering(8108)
-print(konvertering)
