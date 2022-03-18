@@ -1,17 +1,29 @@
-from asyncio.windows_events import NULL
 import sqlite3
 class BatchData:
+<<<<<<< Updated upstream
     Barcode = '' #fundet main
     Product= '' #fundet dbhandler
-    EAN13 = NULL #fundet main
-    EAN5 = NULL #fundet main
+    EAN13 = '' #fundet main
+    EAN5 = '' #fundet main
     Date = '' #fundet main
     Category = '' #fundet dbhandler
-    Price = NULL #fundet dbhandler
-    Quantity = NULL #fundet dbhandler
+    Price = 0 #fundet dbhandler
+    Quantity = 0 #fundet dbhandler
     stockoptionbatch = False #fundet dbhandler
     stockoptionproduct = False #fundet dbhandler
-    NewQuantity = NULL
+=======
+    Barcode = '' 
+    Product= '' 
+    EAN13 = 0
+    EAN5 = 0 
+    Date = '' 
+    Category = '' 
+    Price = 0
+    Quantity = 0 
+    stockoptionbatch = False 
+    stockoptionproduct = False 
+>>>>>>> Stashed changes
+    NewQuantity = 0
 def data_check():
     data_check_product()
     data_check_batch()
@@ -66,7 +78,7 @@ def insert_data_batch():
         if sqliteConnection:
             sqliteConnection.close()
 def batch_quantity():
-    if(BatchData.NewQuantity != NULL):
+    if(BatchData.NewQuantity != 0):
         BatchData.Quantity = BatchData.Quantity + BatchData.NewQuantity
     else:
         print(BatchData.Quantity)
@@ -145,17 +157,26 @@ def data_check_product():
         if sqliteConnection:
             sqliteConnection.close()
 def batchdata_reset():
-    BatchData.Barcode = NULL 
+    BatchData.Barcode = 0
     BatchData.Product= '' 
-    BatchData.EAN13 = NULL 
-    BatchData.EAN5 = NULL 
+<<<<<<< Updated upstream
+    BatchData.EAN13 = ''
+    BatchData.EAN5 = '' 
     BatchData.Date = '' 
     BatchData.Category = ''
-    BatchData.Price = NULL 
-    BatchData.Quantity = NULL 
+    BatchData.Price = 0 
+    BatchData.Quantity = 0 
+=======
+    BatchData.EAN13 = 0
+    BatchData.EAN5 = 0
+    BatchData.Date = '' 
+    BatchData.Category = ''
+    BatchData.Price = 0 
+    BatchData.Quantity = 0
+>>>>>>> Stashed changes
     BatchData.stockoptionbatch = False 
     BatchData.stockoptionproduct = False
-    BatchData.NewQuantity = NULL
+    BatchData.NewQuantity = 0
     print("Batchdata is now reset")
 def insert_data_products():
     try:
@@ -175,3 +196,4 @@ def insert_data_products():
     finally:
         if sqliteConnection:
             sqliteConnection.close()
+

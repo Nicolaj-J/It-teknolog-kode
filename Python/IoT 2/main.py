@@ -7,8 +7,8 @@ def start(barcode):
         EAN13 = str(barcode)[0:13]
         EAN5 = str(barcode)[13:18]
         dbHandler.BatchData.Barcode = barcode #fundet
-        dbHandler.BatchData.EAN13 = int(EAN13) #fundet
-        dbHandler.BatchData.EAN5 = int(EAN5) #fundet
+        dbHandler.BatchData.EAN13 = str(EAN13) #fundet
+        dbHandler.BatchData.EAN5 = str(EAN5) #fundet
         dbHandler.BatchData.Date = EAN5conversion.dato_konvertering(int(EAN5))    #dbHandler.data_check()
         dbHandler.data_check()
     if(len(str(barcode))==20):
