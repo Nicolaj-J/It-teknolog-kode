@@ -11,7 +11,7 @@ class BatchData:
     Quantity = NULL #fundet dbhandler
     stockoptionbatch = False #fundet dbhandler
     stockoptionproduct = False #fundet dbhandler
-    QuantityHandling = False
+    NewQuantity = NULL
 def data_check():
     data_check_product()
     data_check_batch()
@@ -43,7 +43,6 @@ def data_update_batch():
     finally:
         if sqliteConnection:
             sqliteConnection.close()
-
 def insert_data_batch():
     try:
         sqliteConnection = sqlite3.connect('batch.db')
@@ -55,9 +54,10 @@ def insert_data_batch():
                             VALUES 
                             (?,?,?,?,?,?,?,?)"""
         tuple1 = (BatchData.Barcode, BatchData.Product, BatchData.EAN13, BatchData.EAN5, BatchData.Date, BatchData.Category, BatchData.Price, BatchData.Quantity)
+        print("row værdi: ", tuple1)
         cursor.execute(sqlite_insert_query, tuple1)
         sqliteConnection.commit()
-        print("Record inserted successfully into Batch table ", cursor.rowcount)
+        print("Record inserted successfully into Batch, Productbatch table ", cursor.rowcount)
         cursor.close()
 
     except sqlite3.Error as error:
@@ -66,10 +66,9 @@ def insert_data_batch():
         if sqliteConnection:
             sqliteConnection.close()
 def batch_quantity():
-    print("status: ", BatchData.QuantityHandling)
-    if(BatchData.QuantityHandling == True):
-        BatchData.Quantity = BatchData.Quantity + BatchData.EAN5
-    elif(BatchData.QuantityHandling == False):
+    if(BatchData.NewQuantity != NULL):
+        BatchData.Quantity = BatchData.Quantity + BatchData.NewQuantity
+    else:
         print(BatchData.Quantity)
         BatchData.Quantity = BatchData.Quantity - 1
         print(BatchData.Quantity)
@@ -103,11 +102,12 @@ def data_check_batch():
         records = cursor.fetchall()
         print("Printing ID ", BatchData.Barcode)
         for row in records:
-            if(BatchData.Barcode == row[0]):
+            if(BatchData.Barcode == str(row[0])):
                 print("Vi har det batch")
                 BatchData.stockoptionbatch = True
                 BatchData.Quantity = row[7]
             else:
+                print("row0 = ", row[0])
                 print("Vi har ikke det batch")
                 BatchData.stockoptionbatch = False
         cursor.close()
@@ -155,10 +155,12 @@ def batchdata_reset():
     BatchData.Quantity = NULL 
     BatchData.stockoptionbatch = False 
     BatchData.stockoptionproduct = False
+    BatchData.NewQuantity = NULL
     print("Batchdata is now reset")
 def insert_data_products():
-    dbconnect('product.db')
     try:
+        sqliteConnection = sqlite3.connect('product.db')
+        cursor = sqliteConnection.cursor()
         sqlite_insert_query = """INSERT INTO Products
                             (EAN13, Products,Category, Price) 
                             VALUES 
@@ -168,19 +170,8 @@ def insert_data_products():
         sqliteConnection.commit()
         print("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
         cursor.close()
-    except:
-        print("Couldnt insert query")
-    dbdisconnect('product.db')
-def dbconnect(dbname):
-    try:
-        sqliteConnection = sqlite3.connect(dbname)
-        cursor = sqliteConnection.cursor()
-        print("Successfully Connected to ", dbname)
     except sqlite3.Error as error:
-        print("Failed to connect to ",dbname, ". Errorcode: " , error)
-def dbdisconnect(dbname):
-    if sqliteConnection:
-        sqliteConnection.close()
-        print("The SQLite connection is closed")
-
-insert_data_products()
+        print("Failed to read data from sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
