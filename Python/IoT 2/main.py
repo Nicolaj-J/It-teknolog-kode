@@ -22,3 +22,5 @@ def start(barcode):
         dbHandler.BatchData.EAN5 = str(EAN5) 
         dbHandler.BatchData.Date = EAN5conversion.dato_konvertering(int(EAN5))
         dbHandler.data_check()
+
+

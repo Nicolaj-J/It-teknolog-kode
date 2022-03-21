@@ -116,7 +116,6 @@ def data_check_batch():
         if sqliteConnection:
             sqliteConnection.close()
 def data_check_product():
-
     try:
         sqliteConnection = sqlite3.connect('product.db')
         cursor = sqliteConnection.cursor()
