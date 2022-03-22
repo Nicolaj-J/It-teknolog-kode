@@ -22,6 +22,25 @@ def start(barcode):
         dbHandler.BatchData.EAN5 = str(EAN5) 
         dbHandler.BatchData.Date = EAN5conversion.dato_konvertering(int(EAN5))
         dbHandler.data_check()
+def delete():
+    try:
+        sqliteConnection = sqlite3.connect('batch.db')
+        cursor = sqliteConnection.cursor()
 
+        sql_update_query = """DELETE from Productbatch where Category = ?"""
+        cursor.execute(sql_update_query, ('Mejeri',))
+        sqliteConnection.commit()
+        print("Record deleted successfully")
 
-start('0096153482189110812060')
+        cursor.close()
+
+    except sqlite3.Error as error:
+        print("Failed to delete reocord from a sqlite table", error)
+    finally:
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("sqlite connection is closed")
+#delete()
+start('00961534821891108220')
+start('00961534821891108620')
+start('00961534821891108720')

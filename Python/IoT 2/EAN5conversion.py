@@ -10,7 +10,7 @@ def dato_konvertering(x):
     if(dage > 31): #Januar
         dage = dage - 31
         måned = måned + 1
-    if(dage > 29): #Februar
+    if(dage > 28): #Februar
         if(år % 4 == 0):
             dage = dage - 29
             måned = måned + 1
