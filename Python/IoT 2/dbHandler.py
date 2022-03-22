@@ -105,6 +105,7 @@ def data_check_batch():
                 print("Vi har det batch")
                 BatchData.stockoptionbatch = True
                 BatchData.Quantity = row[7]
+                BatchData.Quantity = row[6]
             else:
                 print("row0 = ", row[0])
                 print("Vi har ikke det batch")

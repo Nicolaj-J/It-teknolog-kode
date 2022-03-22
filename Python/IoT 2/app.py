@@ -47,12 +47,6 @@ def get_db():
 
 @app.route("/")
 def index():
-    #if db is None:
-       # db = g._database = sqlite3.connect('Login.db')
-        #cursor = db.cursor()
-        #cursor.execute("select * from productbatch")
-        #all_data = cursor.fetchall()
-        #db.close()
     return render_template("Login.html")
 
 
