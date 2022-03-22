@@ -1,53 +1,55 @@
-from flask import Flask, make_response
-from flask import render_template,redirect
-import datetime
 import sqlite3
-import json
+import random
+from flask import Flask, session, render_template, request, g
+import datetime
+app = Flask(__name__)
+app.secret_key = "select_a_COMPLEX_secret_key_please"
 date = datetime.datetime.now() + datetime.timedelta(days=10)
 app = Flask(__name__)
 år = str(date)[0:4]
 måned = str(date)[5:7]
 dage = str(date)[8:10]
 dato = f"{dage}/{måned}/{år}"
-print(dato)
 
-def getDBData():
-    try:
-        sqliteConnection = sqlite3.connect('batch.db')
-        cursor = sqliteConnection.cursor()
+@app.route("/db")
+def database():
+    data = get_db()
+    print(data)
+    return render_template("Database.html", all_data = data)
+def get_db():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect('batch.db')
+        cursor = db.cursor()
+        cursor.execute("select * from productbatch")
+        all_data = cursor.fetchall()
 
-        sql_select_query = """select * from productbatch where Date < ?"""
+    return all_data
+
+@app.route("/")
+def index():
+    data = get_dbforside()
+    print(data)
+    return render_template("forside.html", sort_data = data)
+def get_dbforside():
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect('batch.db')
+        cursor = db.cursor()
+        sql_select_query = """select * from productbatch where Date > ? order by EAN5 asc"""
         cursor.execute(sql_select_query, (dato,))
-        records = cursor.fetchall()
-        cursor.close()
-        return records
-    except sqlite3.Error as error:
-        print("Failed to read data from sqlite table", error)
-    finally:
-        if sqliteConnection:
-            sqliteConnection.close()
-@app.route('/')
-def login():
-    return (render_template("Forside_login.html"))
+        sort_data = cursor.fetchall()
+
+    return sort_data
 
 
-@app.route('/db')
-def db():
-    return (render_template("Database.html"))
 
-@app.route('/data', methods=["POST"])
-def data():
-    conn = sqlite3.connect('batch.db')
-    posts = conn.execute('SELECT * FROM productbatch').fetchall()
-    conn.close()
-    return render_template('Database.html', posts=posts)
+@app.teardown_appcontext
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
 
-
-    #print(getDBData())
-    #print(len(getDBData()))
-    #response = make_response(json.dumps(data))
-    #response.content_type = "application/json"
-    #return response
-if __name__ == "main":
-    app.run(threaded=True)
-
+if __name__ == '__main__':
+    app.run()
+    

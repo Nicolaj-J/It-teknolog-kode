@@ -24,3 +24,4 @@ def start(barcode):
         dbHandler.data_check()
 
 
+start('0096153482189110812060')
