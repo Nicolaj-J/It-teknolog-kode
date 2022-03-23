@@ -12,8 +12,9 @@
             <li><a class="active" href="{{url_for('forside')}}">Forside</a></li>
             <li><a href="{{url_for('database')}}">Database</a></li>
             <li style="float:right"><a class="active" href="{{url_for('index')}}">Log ud</a></li>
-            
+            <li style="float:right"><a  href="{{url_for('forside')}}">Opdater siden</a></li>
           </ul>
+          <h1>Vare tæt på udløb</h1>
           <table>
             <tr>
                 <th>Produkt</th>
@@ -24,6 +25,7 @@
                 <th>Kategori</th>
                 <th>Antal</th>
                 <th>Pris</th>
+                <th>Status</th>
             </tr>
         {% for item in sort_data%}
         <tr>
@@ -35,10 +37,10 @@
             <td>{{item[5]}}</th>
             <td>{{item[7]}}</th>
             <td>{{item[6]}}</th>
+            <td>{{item[3]-var}}</td>
+            <td><button class="open-button" onclick="openForm()">Ret pris</button></td>
         </tr>
         {%endfor%}
         </table>
     </body>
 </html>
-
-

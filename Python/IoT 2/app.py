@@ -4,27 +4,24 @@ import datetime
 app = Flask(__name__)
 app.secret_key = "select_a_COMPLEX_secret_key_please"
 date1 = datetime.datetime.now() + datetime.timedelta(days=10)
-#app = Flask(__name__)
-#år = str(date)[0:4]
-#måned = str(date)[5:7]
-#dage = str(date)[8:10]
-#dato = f"{dage}/{måned}/{år}"
+date = datetime.datetime.now()
 date2 = datetime.datetime(day=1, month=1, year=2000)
-timedelta = date1 - date2
+timedelta10 = date1 - date2
+timedelta = date - date2
 
 
 @app.route("/main")
 def forside():
     data = get_dbforside()
     print(data)
-    return render_template("Forside.html", sort_data = data)
+    return render_template("Forside.html", sort_data = data, var = timedelta.days)
 def get_dbforside():
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('batch.db')
         cursor = db.cursor()
         sql_select_query = """select * from productbatch where EAN5 < ? order by EAN5 asc"""
-        cursor.execute(sql_select_query, (timedelta.days,))
+        cursor.execute(sql_select_query, (timedelta10.days,))
         sort_data = cursor.fetchall()
         db.close()
     return sort_data
@@ -33,7 +30,7 @@ def get_dbforside():
 def database():
     data = get_db()
     print(data)
-    return render_template("Database.html", all_data = data)
+    return render_template("Database.html", all_data = data, var = timedelta.days )
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
