@@ -2,7 +2,6 @@ import sqlite3
 from flask import Flask, session, render_template, request, g
 import datetime
 app = Flask(__name__)
-app.secret_key = "select_a_COMPLEX_secret_key_please"
 date1 = datetime.datetime.now() + datetime.timedelta(days=10)
 date = datetime.datetime.now()
 date2 = datetime.datetime(day=1, month=1, year=2000)

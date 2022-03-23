@@ -14,45 +14,6 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-/*Nav bar*/
-ul {
-list-style-type: none;
-margin: 0;
-padding: 0;
-overflow: hidden;
-background-color: #333;
-}
-
-li {
-float: left;
-}
-
-li a {
-display: block;
-color: white;
-text-align: center;
-padding: 14px 16px;
-text-decoration: none;
-}
-
-li a:hover:not(.active) {
-background-color: #111;
-}
-
-.active {
-background-color: #04AA6D;
-}
-            
-
-
-body {font-family: Arial, Helvetica, sans-serif;}
-* {box-sizing: border-box;}
-
-.tablebtn{
-  background-color: #ddd;
-}
-
-
 
 /* The popup form - hidden by default */
 .form-popup {
@@ -108,5 +69,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
   opacity: 1;
 }
 
-
-
+.red {color:red}
+.orange {color:orange}
+.green {color:green}
