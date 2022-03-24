@@ -1,5 +1,5 @@
 import sqlite3
-from flask import Flask, session, render_template, request, g
+from flask import Flask , render_template, g
 import datetime
 app = Flask(__name__)
 date1 = datetime.datetime.now() + datetime.timedelta(days=10)

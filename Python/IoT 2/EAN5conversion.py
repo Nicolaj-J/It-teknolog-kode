@@ -1,12 +1,15 @@
 def dato_konvertering(x):
+    #Denne funktion laver EAN5 stregkoden om til en dato.
     dageår = 365
     skud = x/365/4
     start = 2000
     måned = 1
-    år_dage = start + x/dageår
-    år, dage = int(år_dage), år_dage-int(år_dage)
-    dage = int(dage*365-int(skud))
-
+    år_dage = start + x/dageår #Her finder vi hvilket år den udløber plus antal dage inde i året som er et komma tal
+    år, dage = int(år_dage), år_dage-int(år_dage) #Her skilder vi det ad
+    dage = int(dage*365-int(skud)) #Her ganger vi komma tallet med 365 for at finde antal dage inde i året hvorefter vi tager højde for skudår
+    
+    #Disse if statements går bare igennem og kigger på om vi har flere dage en der er i hver enkelt måned. Hvorefter den trækker det antal dage
+    #fra og lægger 1 måned til
     if(dage > 31): #Januar
         dage = dage - 31
         måned = måned + 1
@@ -47,5 +50,5 @@ def dato_konvertering(x):
     if(dage > 31): #December
         dage = dage - 31
         måned = måned + 1
-    dato = f"{dage}/{måned}/{år}" 
-    return dato
+    dato = f"{dage}/{måned}/{år}" #her sammensætter vi datoen
+    return dato #Og returnere den

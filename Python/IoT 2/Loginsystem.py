@@ -1,4 +1,3 @@
-from pickle import TRUE
 import sqlite3
 class data:
     username = '' 
