@@ -42,6 +42,6 @@ def delete():                               #denne funktion bliver kun brugt til
             sqliteConnection.close()
             print("sqlite connection is closed")
 #delete()
-#start('00961534821891108120')
+start('0096153482189110732070')
 #start('0096153482189110812550')
 #start('00961534821891110820')

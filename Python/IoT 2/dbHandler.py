@@ -48,7 +48,7 @@ def insert_data_batch():
         sqlite_insert_query = """INSERT INTO Productbatch                    
                             (Barcode, Product, EAN13, EAN5, Date, Category, Price, Quantity) 
                             VALUES 
-                            (?,?,?,?,?,?,?,?)""" #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
+                            (?,?,?,?,?,?,?,?)"""    #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
         tuple1 = (str(BatchData.Barcode), BatchData.Product, BatchData.EAN13, BatchData.EAN5, BatchData.Date, BatchData.Category, BatchData.Price, BatchData.Quantity) #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
         print("row værdi: ", tuple1)
         cursor.execute(sqlite_insert_query, tuple1) #Nu køre vi querien med vores tuple variabler
@@ -152,21 +152,21 @@ def batchdata_reset():          #Denne funktion resetter alle variabler i batchd
     BatchData.stockoptionproduct = False
     BatchData.NewQuantity = 0
     print("Batchdata is now reset")
-def insert_data_products():                                 #Denne funktion bliver brugt til at tilføje vare ind i produkt databasen. Hvilket er den database der viser hvilke vare vi sælger, kategorien og prisen på varen. Denne viser ikke om vi har det på lager
-    try:                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
-        sqliteConnection = sqlite3.connect('product.db')    #Opretter forbindelse til product.db
-        cursor = sqliteConnection.cursor()                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
+def insert_data_products():                                                                                 #Denne funktion bliver brugt til at tilføje vare ind i produkt databasen. Hvilket er den database der viser hvilke vare vi sælger, kategorien og prisen på varen. Denne viser ikke om vi har det på lager
+    try:                                                                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
+        sqliteConnection = sqlite3.connect('product.db')                                                    #Opretter forbindelse til product.db
+        cursor = sqliteConnection.cursor()                                                                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
         sqlite_insert_query = """INSERT INTO Products
                             (EAN13, Product,Category, Price) 
                             VALUES 
                             (9615348218911, 'Big Corny - Chocolate & salted caramel', 'Mejeri', 10)"""
-                            #Ovenover sætter vi et produkt ind i product tabellen. Denne gang uden ? og har derfor skrevet værdierne direkte ind
-        cursor.execute(sqlite_insert_query)   #Nu køre vi querien
-        sqliteConnection.commit()             #Her comitter vi
+                                                                                                            #Ovenover sætter vi et produkt ind i product tabellen. Denne gang uden ? og har derfor skrevet værdierne direkte ind
+        cursor.execute(sqlite_insert_query)                                                                  #Nu køre vi querien
+        sqliteConnection.commit()                                                                           #Her comitter vi
         print("Record inserted successfully into SqliteDb_developers table ", cursor.rowcount)
-        cursor.close()                        #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
-    except sqlite3.Error as error:                          #Hvis der sker en fejl udprinter vi fejlbeskeden
+        cursor.close()                                                                                      #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+    except sqlite3.Error as error:                                                                          #Hvis der sker en fejl udprinter vi fejlbeskeden
         print("Failed to read data from sqlite table", error)
-    finally:                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
+    finally:                                                                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
         if sqliteConnection:
             sqliteConnection.close()
