@@ -9,12 +9,12 @@ timedelta10 = date1 - date2
 timedelta = date - date2
 
 
-@app.route("/main")
-def forside():
+@app.route("/main")                    
+def forside():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_dbforside()
     print(data)
     return render_template("Forside.html", sort_data = data, var = timedelta.days)
-def get_dbforside():
+def get_dbforside(): #Samler information fra databasen
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('batch.db')
@@ -26,11 +26,11 @@ def get_dbforside():
     return sort_data
 
 @app.route("/db")
-def database():
+def database():#Funktionen rendere database siden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_db()
     print(data)
     return render_template("Database.html", all_data = data, var = timedelta.days )
-def get_db():
+def get_db():#Samler information fra databasen
     db = getattr(g, '_database', None)
     if db is None:
         db = g._database = sqlite3.connect('batch.db')
@@ -42,16 +42,16 @@ def get_db():
 
 
 @app.route("/")
-def index():
+def index(): #Funktionen rendere login siden
     return render_template("Login.html")
 
 
-@app.teardown_appcontext
+@app.teardown_appcontext #lukker database forbindelsen
 def close_connection(exception):
     db = getattr(g, '_database', None)
     if db is not None:
         db.close()
 
 if __name__ == '__main__':
-    app.run()
+    app.run() #Starter flask op med login siden.
     
