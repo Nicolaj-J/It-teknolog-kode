@@ -1,14 +1,13 @@
 import cv2
-import numpy
 from pyzbar.pyzbar import decode
 from gpiozero import Buzzer
 
-buzzer = Buzzer(20)
+buzzer = Buzzer(20) #instance af buzzer klassen
 
 def barcode_read():
-    cam = cv2.VideoCapture(0)
-    cam.set(3,640) # width is 3
-    cam.set(4,480) # Height is 4
+    cam = cv2.VideoCapture(0) #instance af videocapture klassen
+    cam.set(3,640) # width is 3 (plads, pixel størrelse) definere størrelsen af billedet den tager
+    cam.set(4,480) # Height is 4 (plads, pixel størrelse) definere størrelsen af billedet den tager
     while True:
         success, img = cam.read()
         if not decode(img):
@@ -21,7 +20,7 @@ def barcode_read():
                 print(barcode_data)
         
                 cam.release()
-                cv2.destroyAllWindows()
+                #cv2.destroyAllWindows()
                 buzzer.off()
                 return barcode_data
                 #break
@@ -29,4 +28,4 @@ def barcode_read():
         
     
         #cv2.imshow('Result',img)
-        cv2.waitKey(1)
+        #cv2.waitKey(1)

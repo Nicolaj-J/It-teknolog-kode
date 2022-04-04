@@ -5,7 +5,7 @@ class BatchData:
     EAN13 = '' 
     EAN5 = '' 
     Date = '' 
-    Category = '' 
+    Category = ''
     Price = 0 
     Quantity = 0 
     stockoptionbatch = False 
@@ -24,7 +24,7 @@ def data_check():                                                               
 def data_update_batch():
     try:                                                                                #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
         sqliteConnection = sqlite3.connect('batch.db')                                  #Opretter forbindelse til batch.db
-        cursor = sqliteConnection.cursor()                                              #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
+        cursor = sqliteConnection.cursor()                                              #cursor er en instance af cursor() klassen hvor man kan tilslutte sqlite metoder og køre dem
 
         sql_update_query = """Update Productbatch set Quantity = ? where Barcode = ?""" #Vi opdatere productbatch table på antallet hvis barcode matcher
         data = (BatchData.Quantity, BatchData.Barcode)                                   #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de variabler vi gerne vil bruge
