@@ -17,8 +17,6 @@ def barcode_read():
             buzzer.on()
             for barcode in decode(img):
                 barcode_data = barcode.data.decode('utf-8')
-                print(barcode_data)
-        
                 cam.release()
                 #cv2.destroyAllWindows()
                 buzzer.off()

@@ -27,7 +27,7 @@
             </div>
           </nav>
         
-          <h1>Vare tæt på udløb</h1> <!--Overskrift på tabel kolonnerne -->
+          <h1>Varer tæt på udløb</h1> <!--Overskrift på tabel kolonnerne -->
           <table id="table-id">
             <tr>
                 <th>Produkt</th>
@@ -51,7 +51,7 @@
             <td>{{item[5]}}</th>
             <td>{{item[7]}}</th>
             <td>{{item[6]}}</th>
-            <td>{{item[7]/(item[3]-var+1)}}</td>
+            <td>{{item[7]/(item[3]-var)}}</td>
             <td><button class="open-button" onclick="openForm()">Ret pris</button></td>
         </tr>
         {%endfor%}

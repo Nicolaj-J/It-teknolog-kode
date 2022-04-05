@@ -67,10 +67,6 @@ if(x == 'login'):
     print("password: ")
     data.password = input()
     readSqliteTable()
-    print("usernamedb: ", data.usernamedb)
-    print("passworddb: ", data.passworddb)
-    print("Username: ", data.username)
-    print("password: ", data.password)
     if(data.username and data.password == data.usernamedb and data.passworddb):
         print("Login successful")
     else: 
