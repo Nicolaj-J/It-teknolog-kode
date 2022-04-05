@@ -1,8 +1,7 @@
 import dbHandler
 import EAN5conversion
 import sqlite3
-def start(barcode):                                                             #Denne funktion bliver kaldt med en stregkode
-                                                     
+def start(barcode):                                                             #Denne funktion bliver kaldt med en stregkode(argument)                                                 
     if(len(str(barcode)[2:22])==20):                                            #Ser på om stregkoden er 20 cifre
         print("Tilføjer") #indscanning
         EAN13 = str(barcode)[2:15]                                              #Finder EAN13 stregkoden i de 18 cifre

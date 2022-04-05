@@ -74,8 +74,8 @@ def batch_status_checker():
         sqliteConnection = sqlite3.connect('batch.db')      #Opretter forbindelse til batch.db
         cursor = sqliteConnection.cursor()                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
 
-        sql_update_query = """DELETE from Productbatch where Quantity <= ?""" #Sletter fra productbatch table hvis antallet er 0. Igen ? viser vi definere det senere
-        cursor.execute(sql_update_query, (0,))                                #Nu køre vi querien med vores tuple variabler
+        sql_delete_query = """DELETE from Productbatch where Quantity <= ?""" #Sletter fra productbatch table hvis antallet er 0. Igen ? viser vi definere det senere
+        cursor.execute(sql_delete_query, (0,))                                #Nu køre vi querien med vores tuple variabler
         sqliteConnection.commit()                                             #Og vi skal commit for at den endelige ændring sker
         print("Record deleted successfully")
 
