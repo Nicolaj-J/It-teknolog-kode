@@ -159,7 +159,7 @@ def insert_data_products():                                                     
         sqlite_insert_query = """INSERT INTO Products
                             (EAN13, Product,Category, Price) 
                             VALUES 
-                            (9615348218911, 'Big Corny - Chocolate & salted caramel', 'Mejeri', 10)"""
+                            (7392701574172, 'Faxe kondi 0,5L', 'Drikkevare', 20)"""
                                                                                                             #Ovenover sætter vi et produkt ind i product tabellen. Denne gang uden ? og har derfor skrevet værdierne direkte ind
         cursor.execute(sqlite_insert_query)                                                                  #Nu køre vi querien
         sqliteConnection.commit()                                                                           #Her comitter vi
@@ -170,3 +170,5 @@ def insert_data_products():                                                     
     finally:                                                                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
         if sqliteConnection:
             sqliteConnection.close()
+        
+insert_data_products()

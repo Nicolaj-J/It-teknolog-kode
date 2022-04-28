@@ -24,11 +24,11 @@ def start(barcode):                                                             
         dbHandler.data_check()                                                  #Kalder data_check funktionen
 def delete():                               #denne funktion bliver kun brugt til fejlrettelser og test
     try:
-        sqliteConnection = sqlite3.connect('batch.db')
+        sqliteConnection = sqlite3.connect('product.db')
         cursor = sqliteConnection.cursor()
 
-        sql_update_query = """DELETE from Productbatch where Category = ?"""
-        cursor.execute(sql_update_query, ('Mejeri',))
+        sql_update_query = """DELETE from Products where Category = ?"""
+        cursor.execute(sql_update_query, ('Slik',))
         sqliteConnection.commit()
         print("Record deleted successfully")
 
@@ -41,7 +41,7 @@ def delete():                               #denne funktion bliver kun brugt til
             sqliteConnection.close()
             print("sqlite connection is closed")
 #delete()
-#start('0096153482189110732070')
+start('0096153482189110815212')
 #start('0096153482189110812550')
 #start('00961534821891110820')
 

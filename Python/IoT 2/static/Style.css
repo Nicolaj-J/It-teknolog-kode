@@ -72,3 +72,7 @@ tr:nth-child(even) {
 .red {color:red}
 .orange {color:orange}
 .green {color:green}
+
+.under-limit { background-color: red; }
+.over-limit { background-color: green;}
+.close-limit { background-color: yellow;}
