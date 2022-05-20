@@ -1,16 +1,29 @@
 import dbHandler
 import EAN5conversion
 import sqlite3
-Barcode = {
+Barcodedic = {
 
 }
 def barcode_Split(barcode):
-    pass
+    val1 = -1
+    val2 = -1
+    barcode = barcode + '-'
+    print(barcode)
+    for i in range(1, barcode.count(')')+1):
+        val1 = barcode.find('(', val1 + 1)
+        val2 = barcode.find(')', val2 + 1)
+        if(i == barcode.count('(')):
+            Barcodedic[barcode[val1 +1:val2]] = barcode[val2 +1:barcode.find('(', val1 + 3)]
+        elif(i < barcode.count('(')):
+            Barcodedic[barcode[val1 +1:val2]] = barcode[val2 +1:barcode.find('(', val1 + 2)]
+    print(Barcodedic)
+        
 
 
 
 
 
+barcode_Split('(01)03453120000011(17)120508(10)ABCD1234(410)9501101020917')
 
 def start(barcode):                                                             #Denne funktion bliver kaldt med en stregkode(argument)                                                 
     if(len(str(barcode)[2:22])==20):                                            #Ser på om stregkoden er 20 cifre
@@ -51,9 +64,10 @@ def delete():                               #denne funktion bliver kun brugt til
         if sqliteConnection:
             sqliteConnection.close()
             print("sqlite connection is closed")
+'''
 def insert():
     try:                                                   #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
-        sqliteConnection = sqlite3.connect('infodb.db')     #Opretter forbindelse til batch.db
+        sqliteConnection = sqlite3.connect('')     #Opretter forbindelse til batch.db
         cursor = sqliteConnection.cursor()                 #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
     
 
@@ -61,7 +75,7 @@ def insert():
                             (Identifier, Data) 
                             VALUES 
                          (?,?)"""                                                                                                                        #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
-        tuple1 = ("7002", "Overholder UN/ECE standard for kvæg, grise får & vildt") #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
+        tuple1 = ("99", "Interne applikationer")
         print("row værdi: ", tuple1)
         cursor.execute(sqlite_insert_query, tuple1)                                                                                                                     #Nu køre vi querien med vores tuple variabler
         sqliteConnection.commit()                                                                                                                                       #Og vi skal commit for at den endelige ændring sker
@@ -72,8 +86,8 @@ def insert():
         print("Failed to insert data into productbatch table", error)
     finally:                                        #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
         if sqliteConnection:
-            sqliteConnection.close()
-insert()
+            sqliteConnection.close()'''
+#insert()
 #delete()
 #start('0096153482189110815212')
 #start('0096153482189110812550')
