@@ -25,8 +25,8 @@ def identifier_check(barcode):
         if key == "01":
             dbHandler.BatchData.EAN13 = str(value)
         if key == "37": #antal
-            dbHandler.BatchData.Quantity = int(value)
+            dbHandler.BatchData.NewQuantity = int(value)
         if key == "10": #batch
             dbHandler.BatchData.Batch = str(value)
     dbHandler.data_check()
-barcode_Split('(01)9615348218911(17)008200(10)ABCD1234(37)16')
+barcode_Split('(01)9615348218911(17)008200(10)ABCD1234(37)6')

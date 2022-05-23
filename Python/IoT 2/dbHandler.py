@@ -12,7 +12,9 @@ class BatchData:
     stockoptionbatch = False 
     stockoptionproduct = False 
     NewQuantity = 0
-def data_check():                                                                       #Dette er funktionen der styre hvad der sker og hvornår
+def data_check(): 
+    BatchData.Barcode = str(BatchData.EAN13)+str(BatchData.EAN6)+str(BatchData.Batch)                                                                      #Dette er funktionen der styre hvad der sker og hvornår
+    print("barcode = ", BatchData.Barcode)
     data_check_product()    
     data_check_batch()
     batch_quantity()
@@ -44,8 +46,6 @@ def insert_data_batch():
     try:                                                   #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
         sqliteConnection = sqlite3.connect('Storedb.db')     #Opretter forbindelse til batch.db
         cursor = sqliteConnection.cursor()                 #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
-    
-        print("hey")
         sqlite_insert_query = """INSERT INTO Stockdb                    
                             (Barcode, Product, EAN13, EAN6, Date, Batch, Category, Price, Quantity) 
                             VALUES 
@@ -63,6 +63,8 @@ def insert_data_batch():
         if sqliteConnection:
             sqliteConnection.close()
 def batch_quantity():
+    print("new quantity = ", BatchData.NewQuantity)
+    print("quantity = ", BatchData.Quantity)
     if(BatchData.NewQuantity != 0):                                     #Hvis Newquantity ikke er 0 så lægger vi de antal vi allerede har sammen med det nye vi tilføjer.
         BatchData.Quantity = BatchData.Quantity + BatchData.NewQuantity
     else:                                                               #Hvis ikke s¨å trækker vi bare 1 fra det antal vi allerede har. 
@@ -94,19 +96,23 @@ def data_check_batch():
         cursor = sqliteConnection.cursor()                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
 
         sql_select_query = """select * from Stockdb where Barcode = ?""" #Finder alt i productbatch tablet som matcher variablen til barcode kolonnen 
-        print("batch-barcode: ", BatchData.Barcode)         
+        print("batch-barcode: ", BatchData.Barcode)
+        print(type(BatchData.Barcode))         
         cursor.execute(sql_select_query, (BatchData.Barcode,))                  #Nu køre vi querien med vores tuple variabler
         records = cursor.fetchall()                                             #Her hiver den så alt ud af databasen og sætter records variablen lig med det
-        print("Printing ID ", BatchData.Barcode)
+        print("Printing I ", BatchData.Barcode)
         for row in records:                                 #For loopet her køre lige så mange gange den har fået rækker ud af tabellen
+            print(row)
             if(BatchData.Barcode == str(row[0])):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
                 print("Vi har det batch")
                 BatchData.stockoptionbatch = True           #Hvis den matcher sætter den stockoptionbatch til True for at indikere vi allerede har det batch på lager
-                BatchData.Quantity = row[7]                 #Samtidig med den tager antallet der er på lager
+                BatchData.Quantity = row[8]                 #Samtidig med den tager antallet der er på lager
             else:                                             
                 print("row0 = ", row[0])
                 print("Vi har ikke det batch")
                 BatchData.stockoptionbatch = False          #Hvis den barcode ikke matcher så sætter den stockoptionbatch til False for at vise vi ikke har det batch på lager
+        else:
+            print("Vi har intet i databasen")
         cursor.close()                                      #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
     except sqlite3.Error as error:                          #Hvis der sker en fejl udprinter vi fejlbeskeden
         print("Failed to read data from sqlite table", error)
@@ -144,7 +150,7 @@ def batchdata_reset():                                                  #Denne f
     BatchData.Barcode = '' 
     BatchData.Product= '' 
     BatchData.EAN13 = ''
-    BatchData.EAN5 = '' 
+    BatchData.EAN6 = '' 
     BatchData.Date = '' 
     BatchData.Category = ''
     BatchData.Price = 0 
@@ -171,3 +177,23 @@ def insert_data_products():                                                     
     finally:                                                                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
         if sqliteConnection:
             sqliteConnection.close()
+
+def batch_delete():
+    try:                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
+        sqliteConnection = sqlite3.connect('Storedb.db')      #Opretter forbindelse til batch.db
+        cursor = sqliteConnection.cursor()                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
+
+        sql_delete_query = """DELETE from Stockdb where Quantity > ?""" #Sletter fra productbatch table hvis antallet er 0. Igen ? viser vi definere det senere
+        cursor.execute(sql_delete_query, (0,))                                #Nu køre vi querien med vores tuple variabler
+        sqliteConnection.commit()                                             #Og vi skal commit for at den endelige ændring sker
+        print("Record deleted successfully")
+
+        cursor.close()                                      #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+
+    except sqlite3.Error as error:              #Hvis der sker en fejl udprinter vi fejlbeskeden
+        print("Failed to delete reocord from a sqlite table", error)
+    finally:                                    #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
+        if sqliteConnection:
+            sqliteConnection.close()
+            print("sqlite connection is closed")
+batch_delete()
