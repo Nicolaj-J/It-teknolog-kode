@@ -3,7 +3,7 @@ class BatchData:
     Barcode = '' 
     Product= '' 
     EAN13 = '' 
-    EAN5 = '' 
+    EAN6 = '' 
     Date = '' 
     Category = ''
     Price = 0 
@@ -49,7 +49,7 @@ def insert_data_batch():
                             (Barcode, Product, EAN13, EAN5, Date, Category, Price, Quantity) 
                             VALUES 
                             (?,?,?,?,?,?,?,?)"""                                                                                                                        #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
-        tuple1 = (str(BatchData.Barcode), BatchData.Product, BatchData.EAN13, BatchData.EAN5, BatchData.Date, BatchData.Category, BatchData.Price, BatchData.Quantity) #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
+        tuple1 = (str(BatchData.Barcode), BatchData.Product, BatchData.EAN13, BatchData.EAN6, BatchData.Date, BatchData.Category, BatchData.Price, BatchData.Quantity) #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
         print("row værdi: ", tuple1)
         cursor.execute(sqlite_insert_query, tuple1)                                                                                                                     #Nu køre vi querien med vores tuple variabler
         sqliteConnection.commit()                                                                                                                                       #Og vi skal commit for at den endelige ændring sker
@@ -170,5 +170,10 @@ def insert_data_products():                                                     
     finally:                                                                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
         if sqliteConnection:
             sqliteConnection.close()
-        
-insert_data_products()
+
+#1. kigger på om vi sælger produktet
+#2. kigger på om vi har dette batch
+#3. Udregner nyt antal
+#4. indsætter eller updatere databasen
+#5. Kigger efter batch der skal slettes
+#6. resetter variabler
