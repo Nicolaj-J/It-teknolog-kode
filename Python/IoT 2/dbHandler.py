@@ -101,6 +101,7 @@ def data_check_batch():
         cursor.execute(sql_select_query, (BatchData.Barcode,))                  #Nu køre vi querien med vores tuple variabler
         records = cursor.fetchall()                                             #Her hiver den så alt ud af databasen og sætter records variablen lig med det
         print("Printing I ", BatchData.Barcode)
+        print("records printing: ", records)
         for row in records:                                 #For loopet her køre lige så mange gange den har fået rækker ud af tabellen
             print(row)
             if(BatchData.Barcode == str(row[0])):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
@@ -196,4 +197,26 @@ def batch_delete():
         if sqliteConnection:
             sqliteConnection.close()
             print("sqlite connection is closed")
-batch_delete()
+def insert_data_returndb():
+    try:                                                   #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
+        sqliteConnection = sqlite3.connect('Infodb.db')     #Opretter forbindelse til batch.db
+        cursor = sqliteConnection.cursor()                 #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
+        sqlite_insert_query = """INSERT INTO Returnbatchdb                    
+                            (Batch) 
+                            VALUES 
+                            (?)"""                                                                                                                        #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
+        datatuple = ("9615348218911008200ABCD1234",) 
+        print("row værdi: ", datatuple)
+        cursor.execute(sqlite_insert_query, datatuple)                                                                                                                     #Nu køre vi querien med vores tuple variabler
+        sqliteConnection.commit()                                                                                                                                       #Og vi skal commit for at den endelige ændring sker
+        print("Record inserted successfully into Batch, Stockdb table ", cursor.rowcount)
+        cursor.close()                                                                                                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+
+    except sqlite3.Error as error:                  #Hvis der sker en fejl udprinter vi fejlbeskeden
+        print("Failed to insert data into productbatch table", error)
+    finally:                                        #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
+        if sqliteConnection:
+            sqliteConnection.close()
+
+#batch_delete()
+insert_data_returndb()

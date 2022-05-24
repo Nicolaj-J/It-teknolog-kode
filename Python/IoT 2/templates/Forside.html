@@ -8,6 +8,7 @@
                 <th>EAN13</th>
                 <th>EAN5</th>
                 <th>Dato</th>
+                <th>Batch</th>
                 <th>Kategori</th>
                 <th>Antal</th>
                 <th>Pris</th>
@@ -23,8 +24,9 @@
                     <td>{{item[3]}}</th>
                     <td>{{item[4]}}</th>
                     <td>{{item[5]}}</th>
+                    <td>{{item[6]}}</td>
+                    <td>{{item[8]}}</th>
                     <td>{{item[7]}}</th>
-                    <td>{{item[6]}}</th>
                     {% if item[3]-var == 0 %}
                         <td class="under-limit"></td>
                     {% elif item[7]/(item[3]-var) <= 0 %}
