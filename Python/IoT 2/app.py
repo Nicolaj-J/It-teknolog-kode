@@ -55,7 +55,7 @@ def get_db_batch():
     finally: 
         if sqliteConnection:
             sqliteConnection.close()
-    return batchdata
+    return batchdata 
 
 
     

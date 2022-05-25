@@ -1,80 +1,77 @@
-class variables:
-    størelse = ""
-    køn = ""
-    vare = ""
-    antal = 0
-    nytantal = 0
-#funktion til håndtering af filen
-    #kør sql select funtkion. Find vare og træk antal ud
-    def data_check_batch():
-        try:                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
-            sqliteConnection = sqlite3.connect('Storedb.db')      #Opretter forbindelse til batch.db
-            cursor = sqliteConnection.cursor()                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
-
-            sql_select_query = """select * from Stockdb where Barcode = ?""" #Finder alt i productbatch tablet som matcher variablen til barcode kolonnen 
-            print("batch-barcode: ", BatchData.Barcode)         
-            cursor.execute(sql_select_query, (BatchData.Barcode,))                  #Nu køre vi querien med vores tuple variabler
-            records = cursor.fetchall()                                             #Her hiver den så alt ud af databasen og sætter records variablen lig med det
-            print("Printing ID ", BatchData.Barcode)
-            for row in records:                                 #For loopet her køre lige så mange gange den har fået rækker ud af tabellen
-                if(BatchData.Barcode == str(row[0])):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
-                    print("Vi har det batch")
-                    BatchData.stockoptionbatch = True           #Hvis den matcher sætter den stockoptionbatch til True for at indikere vi allerede har det batch på lager
-                    BatchData.Quantity = row[7]                 #Samtidig med den tager antallet der er på lager
-                else:                                             
-                    print("row0 = ", row[0])
-                    print("Vi har ikke det batch")
-                    BatchData.stockoptionbatch = False          #Hvis den barcode ikke matcher så sætter den stockoptionbatch til False for at vise vi ikke har det batch på lager
-            cursor.close()                                      #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
-        except sqlite3.Error as error:                          #Hvis der sker en fejl udprinter vi fejlbeskeden
-            print("Failed to read data from sqlite table", error)
-        finally:                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
-            if sqliteConnection:
-                sqliteConnection.close()
-    # hvis nyt antal ikke er 0 plus antal og nytantal sammen
-    #ellers minus antal med 1
-    #kør sql update funktion med nyt antal  
-        def data_update_batch():
-            try:                                                                                #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
-                sqliteConnection = sqlite3.connect('Storedb.db')                                  #Opretter forbindelse til batch.db
-                cursor = sqliteConnection.cursor()                                              #cursor er en instance af cursor() klassen hvor man kan tilslutte sqlite metoder og køre dem
-
-                sql_update_query = """Update Stockdb set Quantity = ? where Barcode = ?""" #Vi opdatere productbatch table på antallet hvis barcode matcher
-                data = (BatchData.Quantity, BatchData.Barcode)                                   #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de variabler vi gerne vil bruge
-                print(data)
-                cursor.execute(sql_update_query, data)                                           #Nu køre vi querien med vores tuple variabler
-                sqliteConnection.commit()                                                       #Og vi skal commit for at den endelige ændring sker
-                print("Batch Updated successfully")
-                cursor.close()                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
-
-            except sqlite3.Error as error:                                                      #Hvis der sker en fejl udprinter vi fejlbeskeden
-                print("Failed to update batch table", error)
-            finally:                                                                            #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
-                if sqliteConnection:
-                    sqliteConnection.close()
-
-#indsæt funktion til at sætte kategorierne ind i databasen
-    def indsæt():
-        try:                                                   #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
-            sqliteConnection = sqlite3.connect('Storedb.db')     #Opretter forbindelse til batch.db
-            cursor = sqliteConnection.cursor()                 #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
-        
-
-            sqlite_insert_query = """INSERT INTO Stockdb                    
-                                (Barcode, Product, EAN13, EAN6, Date, Batch, Category, Price, Quantity) 
-                                VALUES 
-                                (?,?,?,?,?,?,?,?)"""                                                                                                                        #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
-            tuple1 = (str(BatchData.Barcode), BatchData.Product, BatchData.EAN13, BatchData.EAN6, BatchData.Date, BatchData.Batch, BatchData.Category, BatchData.Price, BatchData.Quantity,) #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
-            print("row værdi: ", tuple1)
-            cursor.execute(sqlite_insert_query, tuple1)                                                                                                                     #Nu køre vi querien med vores tuple variabler
-            sqliteConnection.commit()                                                                                                                                       #Og vi skal commit for at den endelige ændring sker
-            print("Record inserted successfully into Batch, Productbatch table ", cursor.rowcount)
-            cursor.close()                                                                                                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
-
-        except sqlite3.Error as error:                  #Hvis der sker en fejl udprinter vi fejlbeskeden
-            print("Failed to insert data into productbatch table", error)
-        finally:                                        #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
-            if sqliteConnection:
-                sqliteConnection.close()
+import sqlite3
+from flask import Flask , render_template, g
+import datetime
+app = Flask(__name__)                                           #Her bliver der lavet en instance af Flask klassen
+date1 = datetime.datetime.now() + datetime.timedelta(days=10)   #Bruger datetime modulet til at få dags dato og ligge 10 dage oven i
+date = datetime.datetime.now()      
+date2 = datetime.datetime(day=1, month=1, year=2000)
+timedelta10 = date1 - date2
+timedelta = date - date2
+print(timedelta)
 
 
+@app.route("/main")        # @ er en python decorator som flask bruger tildele url.            
+def forside():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
+    data = get_dbforside()
+    batch = get_db_batch()
+    print(data)
+    return render_template("Forside.html", sort_data = data, var = timedelta.days, batch = batch)        #rendere forside.html samt definere sort_data variablen til at være det samme som data. Dette gør at sort_data variablen kan bruges i html koden. samme med daysdelta
+def get_dbforside(): #Samler information fra databasen
+    db = getattr(g, '_database', None)          #klargøre til at lave database intruksen
+    if db is None:                              #Kigger på om der er en database forbindelse
+        db = g._database = sqlite3.connect('Storedb.db') #laver instruksen færdig til oprettelse af forbindelse 
+        cursor = db.cursor()                            #laver en instance af cursor til oprettelse af forbindelse
+        cursor.execute("select * from Stockdb")           #opretter forbindelse og Køre queryen
+        sort_data = cursor.fetchall()                                   #Trækker resultatet ud af databasen
+        db.close()                                                      #Lukker forbindelsen
+    return sort_data                                                    #Returnere dataen
+
+
+@app.route("/db")
+def database():#Funktionen rendere database siden og sender variabler med database med samt numerisk værdi af dags dato
+    data = get_db_stock()
+    batch = get_db_batch()
+    print(data)
+    return render_template("Database.html", all_data = data, var = timedelta.days, batchdata = batch )
+def get_db_stock():#Samler information fra databasen
+    db = getattr(g, '_database', None)
+    if db is None:
+        db = g._database = sqlite3.connect('Storedb.db')
+        cursor = db.cursor()
+        cursor.execute("select * from Stockdb")
+        all_data = cursor.fetchall()
+        db.close()
+    return all_data
+def get_db_batch():
+    try:                                                   
+        sqliteConnection = sqlite3.connect('Infodb.db')
+        cursor = sqliteConnection.cursor()       
+        cursor.execute("select * from Returnbatchdb")
+        batchdata = cursor.fetchall()
+        cursor.close()                                                                                                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+        print("batchdata = ", batchdata)
+    except sqlite3.Error as error:
+        print("Failed to select data from Infodb.db Returnbatchdb table", error)
+    finally: 
+        if sqliteConnection:
+            sqliteConnection.close()
+    return batchdata 
+
+
+    
+
+
+@app.route("/")
+def index(): #Funktionen rendere login siden
+    return render_template("Login.html")
+
+
+@app.teardown_appcontext #lukker database forbindelsen
+def close_connection(exception):
+    db = getattr(g, '_database', None)
+    if db is not None:
+        db.close()
+
+if __name__ == '__main__':
+    app.run() #Starter flask op med login siden.
+    
