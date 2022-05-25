@@ -19,10 +19,13 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item"><a class="nav-link" href="{{url_for('forside')}}">Forside</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{url_for('database')}}">Database</a></li>
-                    <li class="nav-item"></li><button type="button" onClick="window.location.reload();">Reload</button></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('tilbagekald')}}">Tilbagekald af vare</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{url_for('ansatte')}}">Ansatte</a></li>
+                    
                 </ul>
                 <ul class="navbar-nav d-flex mb-2 mb-lg-0">
                     <!--<li class="nav-item" style="float:right"><a  class="nav-link" href="{{href}}">Opdater siden</a></li>-->
+                    <li class="nav-item" style="float:right"><a class="nav-link" href="javascript:window.location.href=window.location.href">Reload</a></li>
                     <li class="nav-item" style="float:right"><a class="nav-link" href="{{url_for('index')}}">Log ud</a></li>
                 </ul> 
             </div>

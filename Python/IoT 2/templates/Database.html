@@ -32,19 +32,14 @@
         <td>{{item[6]}}</th>
         <td>{{item[8]}}</th>
         <td>{{item[7]}}</th>
-        <td>{{batchdata[0,1]}}</th>
-        {% if batchdata == item[0]%}
-                <td class="returvare"></td>
-        {%else%}
-            {% if item[3]-var == 0 %}
-                <td class="under-limit"></td>
-            {% elif item[7]/(item[3]-var) <= 0 %}
-                <td class="under-limit"></td>
-            {% elif item[7]/(item[3]-var) > 1%}
-                <td class="close-limit"></td>
-            {% else %}
-                <td class="over-limit"></td>
-            {% endif %}
+        {% if item[3]-var == 0 %}
+            <td class="under-limit"></td>
+        {% elif item[7]/(item[3]-var) <= 0 %}
+            <td class="under-limit"></td>
+        {% elif item[7]/(item[3]-var) > 1%}
+            <td class="close-limit"></td>
+        {% else %}
+            <td class="over-limit"></td>
         {% endif %}
         <td><button class="open-button" onclick="openForm()">Ret pris</button></td>
         

@@ -104,7 +104,7 @@ def data_check_batch():
         print("records printing: ", records)
         for row in records:                                 #For loopet her køre lige så mange gange den har fået rækker ud af tabellen
             print(row)
-            if(BatchData.Barcode == str(row[0]) and variable == row[1] and variable == row[2]):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
+            if(BatchData.Barcode == str(row[0])):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
                 print("Vi har det batch")
                 BatchData.stockoptionbatch = True           #Hvis den matcher sætter den stockoptionbatch til True for at indikere vi allerede har det batch på lager
                 BatchData.Quantity = row[8]                 #Samtidig med den tager antallet der er på lager

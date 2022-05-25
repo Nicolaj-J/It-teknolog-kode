@@ -26,6 +26,15 @@ def get_dbforside(): #Samler information fra databasen
         db.close()                                                      #Lukker forbindelsen
     return sort_data                                                    #Returnere dataen
 
+@app.route("/Tilbagekald")        # @ er en python decorator som flask bruger tildele url.            
+def tilbagekald():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
+    batch = get_db_batch()
+    return render_template("Batch.html", batch = batch)        #rendere forside.html samt definere sort_data variablen til at være det samme som data. Dette gør at sort_data variablen kan bruges i html koden. samme med daysdelta
+
+@app.route("/Ansatte")        # @ er en python decorator som flask bruger tildele url.            
+def ansatte():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
+    ansatte = None
+    return render_template("Ansatte.html", ansatte = ansatte) 
 
 @app.route("/db")
 def database():#Funktionen rendere database siden og sender variabler med database med samt numerisk værdi af dags dato
