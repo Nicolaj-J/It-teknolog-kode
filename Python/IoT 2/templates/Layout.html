@@ -37,36 +37,7 @@
             {% endblock %}
             
         </div>
-        <div class="form-popup" id="myForm"> <!-- popop vindue til rettelse a pris -->
-            <form action="/action_page.php" class="form-container">
-              <h1>Ret pris</h1>
-          
-              <label for="email"><b>Sæt ny pris</b></label>
-              <input type="text" placeholder="Pris" name="Pris" required>
-              <button type="submit" class="btn">Accepter</button>
-              <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
-              
-              
-            </form>
-        </div>
-        <script>
-            function openForm() {
-              document.getElementById("myForm").style.display = "block";
-            }
-            
-            function closeForm() {
-              document.getElementById("myForm").style.display = "none";
-            }
-        </script>
         <script src="https://www.kryogenix.org/code/browser/sorttable/sorttable.js"></script>
-        <script type="text/javascript">
-            $(document).ready(function () {
-                var url = window.location;
-                $('ul.nav a[href="'+ url +'"]').parent().addClass('active');
-                $('ul.nav a').filter(function() {
-                     return this.href == url;
-                }).parent().addClass('active');
-            });
-        </script> 
+         
     </body>
 </html>
