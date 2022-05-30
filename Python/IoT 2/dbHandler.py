@@ -219,4 +219,4 @@ def insert_data_returndb():
             sqliteConnection.close()
 
 #batch_delete()
-insert_data_returndb()
+#insert_data_returndb()
