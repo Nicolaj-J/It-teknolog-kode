@@ -27,20 +27,20 @@
         {% for item in all_data%}<!--For loop lavet i jinja. Går igennem hver item i all_data og splitter items op til de rigtige celler. All_data er en tuple bestående af tupler. Disse tupler som den består af er de items der bliver opdelt
             og sat ind i cellerne. Så hver gang den køre forloopet bliver den næste tuple taget i all_data, opdelt og sat ind på de rigtige celler i rækken.-->
             <tr class="item p-row" onclick="openForm()">
-                <td class="name">{{item[1]}}</td>
-                <td class="barcode">{{item[0]}}</td>
-                <td>{{item[2]}}</td>
-                <td>{{item[4]}}</td>
-                <td>{{item[3]}}</td>
-                <td>{{item[5]}}</td>
-                <td>{{item[6]}}</td>
-                <td>{{item[8]}}</td>
-                <td class="price" data-price="{{item[7]}}">{{item[7]}}</td>
-                {% if item[3]-var == 0 %}
+                <td class="name">{{item[1]}}</td> <!-- Produkt navn  -->
+                <td class="barcode">{{item[0]}}</td> <!-- Stregkode -->
+                <td>{{item[2]}}</td> <!-- GTIN -->
+                <td>{{item[4]}}</td> <!-- Dato -->
+                <td>{{item[5]}}</td> <!-- Datotype -->
+                <td>{{item[6]}}</td> <!-- Batch -->
+                <td>{{item[7]}}</td> <!-- Kategori -->
+                <td>{{item[9]}}</td> <!-- Antal -->
+                <td class="price" data-price="{{item[7]}}">{{item[8]}}</td> <!-- Pris -->
+                {% if item[3]-var == 0 %} <!-- Status -->
                 <td class="under-limit"></td>
-                {% elif item[7]/(item[3]-var) <= 0 %}
+                {% elif item[8]/(item[3]-var) <= 0 %}
                 <td class="under-limit"></td>
-                {% elif item[7]/(item[3]-var) > 1%}
+                {% elif item[8]/(item[3]-var) > 1%}
                 <td class="close-limit"></td>
                 {% else %}
                 <td class="over-limit"></td>

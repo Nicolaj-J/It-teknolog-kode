@@ -13,8 +13,7 @@ print(timedelta)
 @app.route("/main")        # @ er en python decorator som flask bruger tildele url.            
 def forside():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_dbforside()
-    batch = get_db_batch()
-    print(data)
+    batch = batchsplit(get_db_batch())
     return render_template("Forside.html", sort_data = data, var = timedelta.days, batch = batch)        #rendere forside.html samt definere sort_data variablen til at være det samme som data. Dette gør at sort_data variablen kan bruges i html koden. samme med daysdelta
 def get_dbforside(): #Samler information fra databasen
     db = getattr(g, '_database', None)          #klargøre til at lave database intruksen
@@ -47,16 +46,23 @@ def get_db_batch():
     return batchdata 
 def batchsplit(batch):
     tilbagekaldslist = []
-    for i in range (0, batch.count("(") +1):
+    print("len: ", len(batch))
+    print("batch: ", batch[0])
+    print("batch i 1: ", batch[0][1])
+    print("count: ", batch.count('('))
+    for i in range (0, len(batch) +1):
+        print(i)
         try:                                                   
             sqliteConnection = sqlite3.connect('Storedb.db')
             cursor = sqliteConnection.cursor()
-            cursor.execute("select * from Stockdb where barcode = ?", (str(batch[i][1]),))
+            cursor.execute("select * from Stockdb where barcode = ?", (str(batch[i -1][1]),))
             batchall = cursor.fetchall()
-            batchall = batchall[0]
-            batchall = batchall +  (batch[i][2],)
-            tilbagekaldslist.append(batchall)
-            cursor.close()                                                                                                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+            print("batchall: ",batchall)
+            if len(batchall) != 0:
+                batchall = batchall[0]
+                batchall = batchall +  (batch[i -1][2],)
+                tilbagekaldslist.append(batchall)
+                cursor.close()                                                                                                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
         except sqlite3.Error as error:
             print("Failed to select data from Infodb.db Returnbatchdb table", error)
         finally: 

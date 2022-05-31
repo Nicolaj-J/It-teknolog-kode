@@ -12,12 +12,14 @@ class BatchData:
     stockoptionbatch = False 
     stockoptionproduct = False 
     NewQuantity = 0
+    Datotype = ""
 def data_check(): 
     BatchData.Barcode = str(BatchData.EAN13)+str(BatchData.EAN6)+str(BatchData.Batch)                                                                      #Dette er funktionen der styre hvad der sker og hvornår
     print("barcode = ", BatchData.Barcode)
     data_check_product()    
     data_check_batch()
     batch_quantity()
+    identifier_check()
     if(BatchData.stockoptionproduct == True and BatchData.stockoptionbatch == False):   #Hvis vi sælger produktet men ikke har det batch bliver det bare insat i batch.db
         insert_data_batch()
     elif(BatchData.stockoptionproduct == True and BatchData.stockoptionbatch == True):  #Hvis vi sælger produktet og har det batch i databasen så opdatere vi antallet
@@ -47,10 +49,10 @@ def insert_data_batch():
         sqliteConnection = sqlite3.connect('Storedb.db')     #Opretter forbindelse til batch.db
         cursor = sqliteConnection.cursor()                 #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
         sqlite_insert_query = """INSERT INTO Stockdb                    
-                            (Barcode, Product, EAN13, EAN6, Date, Batch, Category, Price, Quantity) 
+                            (Barcode, Product, EAN13, EAN6, Date, Datotype, Batch, Category, Price, Quantity) 
                             VALUES 
-                            (?,?,?,?,?,?,?,?,?)"""                                                                                                                        #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
-        datatuple = (str(BatchData.Barcode), BatchData.Product, BatchData.EAN13, BatchData.EAN6, BatchData.Date, BatchData.Batch, BatchData.Category, BatchData.Price, BatchData.Quantity) #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
+                            (?,?,?,?,?,?,?,?,?,?)"""                                                                                                                        #Her indsætter vi i databasen. Og vi definere kolone navnene vi gerne vil sætte ind på og derefter de værdier vi gerne vil sætte ind. Det gør vi ved ? for at vise det variabler som vi definere senere
+        datatuple = (str(BatchData.Barcode), BatchData.Product, BatchData.EAN13, BatchData.EAN6, BatchData.Date, BatchData.Datotype, BatchData.Batch, BatchData.Category, BatchData.Price, BatchData.Quantity) #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de værdier vi gerne vil bruge
         print("row værdi: ", datatuple)
         cursor.execute(sqlite_insert_query, datatuple)                                                                                                                     #Nu køre vi querien med vores tuple variabler
         sqliteConnection.commit()                                                                                                                                       #Og vi skal commit for at den endelige ændring sker
@@ -178,6 +180,27 @@ def insert_data_products():                                                     
     finally:                                                                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
         if sqliteConnection:
             sqliteConnection.close()
+def identifier_check():
+    try:                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
+        sqliteConnection = sqlite3.connect('Infodb.db')      #Opretter forbindelse til batch.db
+        cursor = sqliteConnection.cursor()                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
+
+        sql_select_query = """select * from Identifiersdb where Identifier = ?""" #Finder alt i productbatch tablet som matcher variablen til barcode kolonnen       
+        cursor.execute(sql_select_query, (BatchData.Datotype,))                  #Nu køre vi querien med vores tuple variabler
+        records = cursor.fetchall()                                             #Her hiver den så alt ud af databasen og sætter records variablen lig med det
+        for row in records:                                 #For loopet her køre lige så mange gange den har fået rækker ud af tabellen
+            if(BatchData.Datotype == str(row[0])):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
+                BatchData.Datotype = str(row[1])           #Samtidig med den tager antallet der er på lager
+        else:
+            print("Vi har intet i databasen")
+        cursor.close()                                      #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+    except sqlite3.Error as error:                          #Hvis der sker en fejl udprinter vi fejlbeskeden
+        print("Failed to read data from sqlite table", error)
+    finally:                                                #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
+        if sqliteConnection:
+            sqliteConnection.close()
+
+
 
 def batch_delete():
     try:                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
