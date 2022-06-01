@@ -1,20 +1,21 @@
 {% extends "Layout.html" %}
 {% block content %}
 <h1>Notifikationer</h1> <!--Overskrift på tabel kolonnerne -->
-          <table id="udløb" class="sortable">
-            <h2 id="udløb">Varer tæt på udløb</h2>
-            <tr>
-                <th>Produkt</th>
-                <th>Stregkode</th>
-                <th>GTIN</th>
-                <th>Dato</th>
-                <th>Datotype</th>
-                <th>Batch</th>
-                <th>Kategori</th>
-                <th>Antal</th>
-                <th>Pris</th>
-                <th>Status</th>
-            </tr>
+        {% if sort_data != 0 %}
+            <table id="udløb" class="sortable">
+                <h2 id="udløb">Varer tæt på udløb</h2>
+                <tr>
+                    <th>Produkt</th>
+                    <th>Stregkode</th>
+                    <th>GTIN</th>
+                    <th>Dato</th>
+                    <th>Datotype</th>
+                    <th>Batch</th>
+                    <th>Kategori</th>
+                    <th>Antal</th>
+                    <th>Pris</th>
+                    <th>Status</th>
+                </tr>
             <tbody>
         {%for item in sort_data%}   <!--For loop lavet i jinja. Går igennem hver item i sort data og splitter items op til de rigtige celler. sort_data variablen er en tuple som består af tupler.--> 
             {% if item[3]-var == 0 %}
@@ -82,7 +83,8 @@
             </tr>
             {%endif%}
         {%endfor%}
-        
+        {%endif%}
+        {% if batch != 0 %}
         <table class="sortable">  <!--Sortable gør at vi kan sortere kolonne ovreskrifter -->
             <h2 id="tilbagekald">Tilbagekalds vare</h2>
             <tr> <!--Overskrift på tabel kolonnerne -->
@@ -112,7 +114,7 @@
             <td>{{item[10]}}</th>
         </tr>
         {%endfor%}
-        
+        {%endif%}
     </tbody>
 </table>
     <!-- popop vindue til rettelse a pris -->
