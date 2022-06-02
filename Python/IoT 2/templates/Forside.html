@@ -70,12 +70,12 @@
                 <td>{{item[6]}}</td> <!-- Batch -->
                 <td>{{item[7]}}</td> <!-- Kategori -->
                 <td>{{item[9]}}</td> <!-- Antal -->
-                <td class="price" data-price="{{item[7]}}">{{item[8]}}</td> <!-- Pris -->
+                <td class="price" data-price="{{item[8]}}">{{item[8]}}</td> <!-- Pris -->
                 {% if item[3]-var == 0 %} <!-- Status -->
                 <td class="under-limit"></td>
-                {% elif item[8]/(item[3]-var) <= 0 %}
+                {% elif item[9]/(item[3]-var) <= 0 %}
                 <td class="under-limit"></td>
-                {% elif item[8]/(item[3]-var) > 1%}
+                {% elif item[9]/(item[3]-var) > 1%}
                 <td class="close-limit"></td>
                 {% else %}
                 <td class="over-limit"></td>
@@ -121,7 +121,7 @@
 
     <div class="form-popup" id="myForm">
         <!-- popop vindue til rettelse a pris -->
-        <form action="/action_page.php" class="form-container">
+        <form action="/forside" class="form-container" method="post">
             <h1 for="item" ></h1>
             <h2 for="barcode"></h2>
             <label for="pris"><b>Sæt ny pris: </b></label>

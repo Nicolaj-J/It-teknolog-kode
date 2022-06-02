@@ -109,7 +109,7 @@ def data_check_batch():
             if(BatchData.Barcode == str(row[0])):           #Kigger på om det kolonne 1 i rækkerne matcher vores barcode variable i batchdata
                 print("Vi har det batch")
                 BatchData.stockoptionbatch = True           #Hvis den matcher sætter den stockoptionbatch til True for at indikere vi allerede har det batch på lager
-                BatchData.Quantity = row[8]                 #Samtidig med den tager antallet der er på lager
+                BatchData.Quantity = row[9]                 #Samtidig med den tager antallet der er på lager
             else:                                             
                 print("row0 = ", row[0])
                 print("Vi har ikke det batch")

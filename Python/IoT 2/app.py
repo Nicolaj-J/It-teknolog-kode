@@ -52,22 +52,34 @@ def logout():                       #her logger man ufd når man trykker log out
     logout_user()
     return redirect('/')
 
-
-
-@app.route("/forside")        # @ er en python decorator som flask bruger tildele url.   
-@login_required         
-def forside():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
+@app.route('/forside', methods =["GET", "POST"])
+@login_required
+def forside():
     data = get_dbforside()
     batch = batchsplit(get_db_batch())
-    return render_template("Forside.html", sort_data = data, var = timedelta.days, batch = batch)        #rendere forside.html samt definere sort_data variablen til at være det samme som data. Dette gør at sort_data variablen kan bruges i html koden. samme med daysdelta
+    if request.method == "POST":
+    # getting input with name = fname in HTML form
+        barcode = request.form.get("barcode")
+        # getting input with name = lname in HTML form
+        pris = request.form.get("price")
+        update_database(barcode, pris)
+        print(pris, " ", barcode)
+        data = get_dbforside()
+        batch = batchsplit(get_db_batch())
+        return render_template("Forside.html", sort_data = data, var = timedelta.days, batch = batch )
+    return render_template('Forside.html',  sort_data = data, var = timedelta.days, batch = batch)
 def get_dbforside(): #Samler information fra databasen
-    db = getattr(g, '_database', None)          #klargøre til at lave database intruksen
-    if db is None:                              #Kigger på om der er en database forbindelse
-        db = g._database = sqlite3.connect('Storedb.db') #laver instruksen færdig til oprettelse af forbindelse 
-        cursor = db.cursor()                            #laver en instance af cursor til oprettelse af forbindelse
-        cursor.execute("select * from Stockdb")           #opretter forbindelse og Køre queryen
-        sort_data = cursor.fetchall()                                   #Trækker resultatet ud af databasen
-        db.close()                                                      #Lukker forbindelsen
+    try:                                                   
+        sqliteConnection = sqlite3.connect('Storedb.db')
+        cursor = sqliteConnection.cursor()       
+        cursor.execute("select * from Stockdb")
+        sort_data = cursor.fetchall()
+        cursor.close()                                                                                                                                                 
+    except sqlite3.Error as error:
+        print("Failed to select data from Infodb.db Returnbatchdb table", error)
+    finally: 
+        if sqliteConnection:
+            sqliteConnection.close()         #klargøre til at lave database intruksen                                                      #Lukker forbindelsen
     return sort_data                                                    #Returnere dataen
 
 @app.route("/Tilbagekald")        # @ er en python decorator som flask bruger tildele url.
@@ -122,11 +134,21 @@ def ansatte():   #Funktionen rendere forsiden og sender variabler med database m
     ansatte = None
     return render_template("Ansatte.html", ansatte = ansatte) 
 
-@app.route("/db")
+@app.route("/db",methods=['GET','POST'])
 @login_required
 def database():#Funktionen rendere database siden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_db_stock()
     batch = get_db_batch()
+    if request.method == "POST":
+       # getting input with name = fname in HTML form
+       barcode = request.form.get("barcode")
+       # getting input with name = lname in HTML form
+       pris = request.form.get("price")
+       update_database(barcode, pris)
+       print(pris, " ", barcode)
+       data = get_dbforside()
+       batch = batchsplit(get_db_batch())
+       return render_template("Database.html", all_data = data, var = timedelta.days, batchdata = batch )
     print(data)
     return render_template("Database.html", all_data = data, var = timedelta.days, batchdata = batch )
 def get_db_stock():#Samler information fra databasen
@@ -141,7 +163,24 @@ def get_db_stock():#Samler information fra databasen
 
 
 #Login routes herunder
-    
+def update_database(barcode, price):
+    try:                                                                                #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
+        sqliteConnection = sqlite3.connect('Storedb.db')                                  #Opretter forbindelse til batch.db
+        cursor = sqliteConnection.cursor()                                              #cursor er en instance af cursor() klassen hvor man kan tilslutte sqlite metoder og køre dem
+
+        sql_update_query = """Update Stockdb set Price = ? where Barcode = ?""" #Vi opdatere productbatch table på antallet hvis barcode matcher
+        data = (price, barcode)                                   #Spørgsmålstegnene ovenover betyder at vi har variabler. Her laver vi en tuple med de variabler vi gerne vil bruge
+        print(data)
+        cursor.execute(sql_update_query, data)                                           #Nu køre vi querien med vores tuple variabler
+        sqliteConnection.commit()                                                       #Og vi skal commit for at den endelige ændring sker
+        print("Batch Updated successfully")
+        cursor.close()                                                                  #Derefter lukker vi cursor metoden. Hvilket for os er forbindelsen til databasen
+
+    except sqlite3.Error as error:                                                      #Hvis der sker en fejl udprinter vi fejlbeskeden
+        print("Failed to update batch table", error)
+    finally:                                                                            #Til sidst kigger den på om den har en forbindelse til en database. Hvis den har det lukker den forbindelsen
+        if sqliteConnection:
+            sqliteConnection.close()
 
 
 
