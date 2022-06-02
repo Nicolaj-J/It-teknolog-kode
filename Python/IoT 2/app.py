@@ -1,16 +1,61 @@
 import sqlite3
-from flask import Flask , render_template, g
+from flask import Flask, redirect, url_for, render_template, request, session, g
 import datetime
-app = Flask(__name__)                                           #Her bliver der lavet en instance af Flask klassen
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager , UserMixin , login_required ,login_user, logout_user,current_user
+
 date1 = datetime.datetime.now() + datetime.timedelta(days=10)   #Bruger datetime modulet til at få dags dato og ligge 10 dage oven i
-date = datetime.datetime.now()      
+date = datetime.datetime.now()
 date2 = datetime.datetime(day=1, month=1, year=2000)
 timedelta10 = date1 - date2
 timedelta = date - date2
 print(timedelta)
 
+app = Flask(__name__)
+app.secret_key = "r@nd0mSk_1"
 
-@app.route("/main")        # @ er en python decorator som flask bruger tildele url.            
+app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///db.db'
+app.config['SECRET_KEY']='619619'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
+db = SQLAlchemy(app)
+
+
+login_manager = LoginManager()
+login_manager.init_app(app)
+
+class User(UserMixin,db.Model):
+    id = db.Column(db.Integer,primary_key=True,autoincrement=True)
+    username = db.Column(db.String(200))
+    email = db.Column(db.String(200))
+    password = db.Column(db.String(200))
+
+@login_manager.user_loader
+def get(id):
+    return User.query.get(id)
+
+@app.route('/',methods=['GET'])
+def get_login():                                #Login siden er den første man kommer ind på når vi runner
+    return render_template('Login.html')
+@app.route('/',methods=['POST'])
+def login_post():
+    email = request.form['email']       #Her bliver der med detaljer vist at email og passwrod er et krab for at komme ind på forsiden
+    password = request.form['password']
+    user = User.query.filter_by(email=email).first()
+    if user != None:
+        login_user(user)
+        return redirect('/forside')
+    else: 
+        return render_template('Login.html')
+
+@app.route('/logout',methods=['GET'])
+def logout():                       #her logger man ufd når man trykker log out.
+    logout_user()
+    return redirect('/')
+
+
+
+@app.route("/forside")        # @ er en python decorator som flask bruger tildele url.   
+@login_required         
 def forside():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_dbforside()
     batch = batchsplit(get_db_batch())
@@ -25,7 +70,8 @@ def get_dbforside(): #Samler information fra databasen
         db.close()                                                      #Lukker forbindelsen
     return sort_data                                                    #Returnere dataen
 
-@app.route("/Tilbagekald")        # @ er en python decorator som flask bruger tildele url.            
+@app.route("/Tilbagekald")        # @ er en python decorator som flask bruger tildele url.
+@login_required            
 def tilbagekald():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
     batch = batchsplit(get_db_batch())
     
@@ -70,12 +116,14 @@ def batchsplit(batch):
                 sqliteConnection.close()
     print(tilbagekaldslist)
     return tilbagekaldslist
-@app.route("/Ansatte")        # @ er en python decorator som flask bruger tildele url.            
+@app.route("/Ansatte")        # @ er en python decorator som flask bruger tildele url.
+@login_required            
 def ansatte():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
     ansatte = None
     return render_template("Ansatte.html", ansatte = ansatte) 
 
 @app.route("/db")
+@login_required
 def database():#Funktionen rendere database siden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_db_stock()
     batch = get_db_batch()
@@ -92,13 +140,11 @@ def get_db_stock():#Samler information fra databasen
     return all_data
 
 
-
+#Login routes herunder
     
 
 
-@app.route("/")
-def index(): #Funktionen rendere login siden
-    return render_template("Login.html")
+
 
 
 @app.teardown_appcontext #lukker database forbindelsen

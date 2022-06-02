@@ -1,52 +1,47 @@
-<!DOCTYPE html>
-<html>
-<html lang="en">
+{% extends 'Loginlayout.html' %}
+{% block content %}
+<style>
+    body{
+        background: coral;
+    }
+.myblock{
+    border:1px solid black;
+    border-radius: 4%;
+    background: rgba(0,0,0,0.5);
+    margin-top:20%;
+    padding:3%;
+}
+.h1{
+    margin-bottom:5% ;
+    color:coral;
+}
+.mybtn{
+ background: rgba(0,0,0,0.5);
+}
 
-<head>
-    <title>Login and Registration Form</title>
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='Stylelogin.css')}}" />
+</style>
+<div class="container">
+    <div class="row">
+        <div class="col-lg-3 col-md-3 col-sm-12"></div>
+        <div class="col-lg-6 col-md-6 col-sm-12 myblock">
+            <h1 class="h1">Login Form</h1>
+            <form action="/" method="POST" class="form-group">
 
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>
-<body>
-  <div class="hero">
-    <div class="form-box">
-     
-      <h2>Login</h2>
-      <form id="login" class="input-group">
-        <input type="text" class="input-field" placeholder="User Id"required> 
-        <input type="text" class="input-field" placeholder="Enter password"required>
-        <a href="main"><button type="button" class="input-field">Log in</button></a>
-        </form>
-      <form id="register" class="input-group">
-        <input type="text" class="input-field" placeholder="User Id"required> 
-        <input type="text" class="input-field" placeholder="Enter password"required>
-        <button type="submit" class="submit-btn">Register</button>
-
-      </form>
-  </div>
-
-      </div>
-
-      <script>
-      var x = document.getElementById("login");
-      var y = document.getElementById("register");
-      var z = document.getElementById("btn");
-
-      function register(){
-        x.style.left = "-400px";
-        y.style.left = "50px";
-        z.style.left = "110px";
-      }
-      function login(){
-        x.style.left = "50px";
-        y.style.left = "450px";
-        z.style.left = "0px";
-      }
-    </script>
+            <div class="form-group">
+                <input type="email" name="email" placeholder="Email" class="form-control">
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" placeholder="Password" class="form-control">
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-block btn-dark mybtn">Submit</button>
+                <a href="/signup" class="btn btn-block btn-dark  mybtn link">Signup</a>
+            </div>
+            </form>
+        </div>
+        <div class="col-lg-3 col-md-3 col-sm-12"></div>
+    </div>
+</div>
 
 
-</body>
-</html>
+{% endblock %}
