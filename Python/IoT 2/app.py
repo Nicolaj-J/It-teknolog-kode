@@ -41,7 +41,10 @@ def login_post():
     email = request.form['email']       #Her bliver der med detaljer vist at email og passwrod er et krab for at komme ind på forsiden
     password = request.form['password']
     user = User.query.filter_by(email=email).first()
-    if user != None:
+    userpassword = User.query.filter_by(password=password).first()
+    print(user)
+    print("password ", userpassword)
+    if user != None and user == userpassword:
         login_user(user)
         return redirect('/forside')
     else: 
