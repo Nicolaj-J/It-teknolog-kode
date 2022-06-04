@@ -39,7 +39,7 @@
                 <td class="over-limit"></td>
                 {% endif %}
             </tr> 
-            {% elif item[8]/(item[3]-var) <= 0 %}   
+            {% elif item[9]/(item[3]-var) <= 0 %}   
             <tr class="item p-row" onclick="openForm()">
                 <td class="name">{{item[1]}}</td> <!-- Produkt navn  -->
                 <td class="barcode">{{item[0]}}</td> <!-- Stregkode -->
@@ -60,7 +60,7 @@
                 <td class="over-limit"></td>
                 {% endif %}
             </tr> 
-            {% elif item[8]/(item[3]-var) > 1 %}
+            {% elif item[9]/(item[3]-var) > 1 %}
             <tr class="item p-row" onclick="openForm()">
                 <td class="name">{{item[1]}}</td> <!-- Produkt navn  -->
                 <td class="barcode">{{item[0]}}</td> <!-- Stregkode -->
@@ -69,7 +69,7 @@
                 <td>{{item[5]}}</td> <!-- Datotype -->
                 <td>{{item[6]}}</td> <!-- Batch -->
                 <td>{{item[7]}}</td> <!-- Kategori -->
-                <td>{{item[10]}}</td> <!-- Antal -->
+                <td>{{item[9]}}</td> <!-- Antal -->
                 <td class="price" data-price="{{item[8]}}">{{item[8]}}</td> <!-- Pris -->
                 {% if item[3]-var == 0 %} <!-- Status -->
                 <td class="under-limit"></td>

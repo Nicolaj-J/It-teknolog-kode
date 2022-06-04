@@ -164,9 +164,9 @@ def batchdata_reset():                                                  #Denne f
     print("Batchdata is now reset")
 def insert_data_products():                                                                                 #Denne funktion bliver brugt til at tilføje vare ind i produkt databasen. Hvilket er den database der viser hvilke vare vi sælger, kategorien og prisen på varen. Denne viser ikke om vi har det på lager
     try:                                                                                                    #Vi har nedenstående inde i en try så programmer ikke lukker hvis der sker en fejl
-        sqliteConnection = sqlite3.connect('product.db')                                                    #Opretter forbindelse til product.db
+        sqliteConnection = sqlite3.connect('Infodb.db')                                                    #Opretter forbindelse til product.db
         cursor = sqliteConnection.cursor()                                                                  #cursor er en instance hvor man kan tilsutte sqlite metoder og køre dem
-        sqlite_insert_query = """INSERT INTO Products
+        sqlite_insert_query = """INSERT INTO Productdb
                             (EAN13, Product,Category, Price) 
                             VALUES 
                             (7392701574172, 'Faxe kondi 0,5L', 'Drikkevare', 20)"""

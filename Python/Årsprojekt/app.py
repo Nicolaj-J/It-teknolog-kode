@@ -193,5 +193,5 @@ def close_connection(exception):
         db.close()
 
 if __name__ == '__main__':
-    app.run() #Starter flask op med login siden.
+    app.run(host="0.0.0.0") #Starter flask op med login siden.
     
