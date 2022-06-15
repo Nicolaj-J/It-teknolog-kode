@@ -26,8 +26,8 @@
     <tbody>
         {% for item in all_data%}<!--For loop lavet i jinja. Går igennem hver item i all_data og splitter items op til de rigtige celler. All_data er en tuple bestående af tupler. Disse tupler som den består af er de items der bliver opdelt
             og sat ind i cellerne. Så hver gang den køre forloopet bliver den næste tuple taget i all_data, opdelt og sat ind på de rigtige celler i rækken.-->
-            <tr class="item p-row" onclick="openForm()">
-                <td class="name">{{item[1]}}</td> <!-- Produkt navn  -->
+            <tr class="item p-row" onclick="openForm()"> <!-- Giver hver row nogle classes og laver en onclick som køre en funktion -->
+                <td class="name">{{item[1]}}</td> <!-- Produkt navn-->
                 <td class="barcode">{{item[0]}}</td> <!-- Stregkode -->
                 <td>{{item[2]}}</td> <!-- GTIN -->
                 <td>{{item[4]}}</td> <!-- Dato -->
@@ -70,7 +70,7 @@
 
 
     function sendToForm(data,name,barcode) {
-      // Send data to form and edit the price
+      // Sender informationen fra rækken over til pop op vinduet
       document.getElementsByName('price')[0].placeholder = "Nuværende pris " + data;
       document.querySelector('input[name="price"]').value = null;
       document.querySelector('input[name="barcode"]').value = barcode;
@@ -79,7 +79,9 @@
     }
 
     row.forEach((element) => {
+      // Lytter på hver row efter clicks
         element.addEventListener("click", (e) => {
+          //Hvis der bliver clicket trækker den information ud af rækken
             const price = element.querySelector(".price");
             const value = price.getAttribute("data-price");
             const name = element.querySelector(".name").innerHTML;
@@ -90,6 +92,7 @@
     </script>
 
     <script>
+      //Funktioner til at åbne og lukke pop up vinduet(om det er hidden er ej)
     function openForm() {
       document.getElementById("myForm").style.display = "block";
     }

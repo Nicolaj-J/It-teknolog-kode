@@ -12,23 +12,28 @@ timedelta10 = date1 - date2
 timedelta = date - date2
 print(timedelta)
 
-app = Flask(__name__)
+app = Flask(__name__) #Laver en instance af flask
+
+#Sætter op flask login
 app.secret_key = "r@nd0mSk_1"
 app.config['SQLALCHEMY_DATABASE_URI']='sqlite:///db.db'
 app.config['SECRET_KEY']='619619'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=True
 db = SQLAlchemy(app)
 
+#Starter Flask login
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "/"
 
+#Laver en class til database håndtering
 class User(UserMixin,db.Model):
     id = db.Column(db.Integer,primary_key=True,autoincrement=True)
     username = db.Column(db.String(200))
     email = db.Column(db.String(200))
     password = db.Column(db.String(200))
 
+#Indeholder login informationer
 @login_manager.user_loader
 def get(id):
     return User.query.get(id)
@@ -39,14 +44,14 @@ def get_login():
     return render_template('Login.html')
 @app.route('/',methods=['POST'])
 def login_post():
-    email = request.form['email']       
-    password = request.form['password']
-    user = User.query.filter_by(email=email).first()
-    userpassword = User.query.filter_by(password=password).first()
+    email = request.form['email']       #Trækker information ud af login felter
+    password = request.form['password'] #Trækker information ud af login felter
+    user = User.query.filter_by(email=email).first() #Scanner igennem DB for brugere
+    userpassword = User.query.filter_by(password=password).first() #Scanner igennem DB for brugere
     print(user)
     print("password ", userpassword)
-    if user != None and user == userpassword:
-        login_user(user)
+    if user != None and user == userpassword: #Hvis den finder et match i databasen kan du logge ind
+        login_user(user) #Laver en session til din bruger
         return redirect('/forside')
     else: 
         return render_template('Login.html')
@@ -54,16 +59,16 @@ def login_post():
 #log ud funktionen
 @app.route('/logout',methods=['GET'])
 def logout():                     
-    logout_user()
+    logout_user() #Logger ud af session
     return redirect('/')
 
 #Forside funktionenerne 
 @app.route('/forside', methods =["GET", "POST"])
-@login_required
-def forside():
+@login_required #Kræver du har en aktiv session for at bruge denne side. 
+def forside(): 
     data = get_dbforside()
     batch = batchsplit(get_db_batch())
-    if request.method == "POST":
+    if request.method == "POST": #her trækkes der information ud af hjemmesiden når man vil rætte prisen
         barcode = request.form.get("barcode")
         pris = request.form.get("price")
         update_database(barcode, pris)
@@ -88,7 +93,7 @@ def get_dbforside(): #Samler information fra databasen
                                               
 #Tilbagekalds siden funktionerne
 @app.route("/Tilbagekald")        
-@login_required            
+@login_required     #Kræver du har en aktiv session for at bruge denne side.        
 def tilbagekald():   
     batch = batchsplit(get_db_batch())
     return render_template("Batch.html", batch = batch)        
@@ -135,14 +140,14 @@ def batchsplit(batch):
 
 #Ansatte siden funktionerne
 @app.route("/Ansatte")        # @ er en python decorator som flask bruger tildele url.
-@login_required            
-def ansatte():   #Funktionen rendere forsiden og sender variabler med database med samt numerisk værdi af dags dato
+@login_required     #Kræver du har en aktiv session for at bruge denne side.        
+def ansatte():   
     ansatte = None
     return render_template("Ansatte.html", ansatte = ansatte) 
 
 #Database side funktionerne
 @app.route("/db",methods=['GET','POST'])
-@login_required
+@login_required#Kræver du har en aktiv session for at bruge denne side. 
 def database(): #Funktionen rendere database siden og sender variabler med database med samt numerisk værdi af dags dato
     data = get_db_stock()
     batch = get_db_batch()
