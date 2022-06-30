@@ -33,7 +33,7 @@ class User(UserMixin,db.Model):
     email = db.Column(db.String(200))
     password = db.Column(db.String(200))
 
-#Indeholder login informationer
+#Indeholder login informationer. Bliver brugt til at se om der allerede er en aktiv session.
 @login_manager.user_loader
 def get(id):
     return User.query.get(id)
