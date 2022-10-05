@@ -2,6 +2,7 @@ from random import random
 
 
 class chessboard():
+    currentturn = "white"
     random = {
         "A" : 2,
         "B" : 52,

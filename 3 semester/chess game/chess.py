@@ -6,6 +6,7 @@ pygame.init()
 WHITE = (255,255,255)
 BLACK = (0,0,0)
 BLUE = (0,0,255)
+GREY = (211,211,211)
 sizenormal = 45
 sizehighlight = 65
 # assigning values to height and width variable   
@@ -16,7 +17,6 @@ width = 400
 display_surface = pygame.display.set_mode((height, width))  
 seguisy80_45 = pygame.font.SysFont("segoeuisymbol", sizenormal)
 seguisy80_65 = pygame.font.SysFont("segoeuisymbol", sizehighlight)
-
 def drawGrid(w, rows, surface):  
     sizeBtwn = w // rows  
   
@@ -86,7 +86,6 @@ def changepiecepos():
             break
         except:
             break
-
 def piececheck(position, piece):
     for key, value in data.chessboard.piecepos.items():
         if key == piece:
@@ -94,15 +93,46 @@ def piececheck(position, piece):
         else:
             if value == position:
                 data.chessboard.piecepos[key] = ""
+
 def turncheck(piece):
-    pass
+    if piece is not None:
+        if piece[-6:-1] == data.chessboard.currentturn:
+            print(piece[-6:-1])
+            print(data.chessboard.currentturn)
+            if data.chessboard.currentturn == "black":
+                print(1)
+                data.chessboard.currentturn = "white"
+            elif data.chessboard.currentturn == "white":
+                print(2)
+                data.chessboard.currentturn = "black"
+            
+            return True
+        else:
+            return False
+    else:
+        return False
 
 resetpos()
 pressedpiece = False
 setup2(mousepos, pressedpiece)
 while True:  
-    display_surface.fill(BLUE)  
-    drawGrid(width,8,display_surface)  
+    
+    #board length, must be even
+    boardLength = 8
+    size = width/boardLength
+    display_surface.fill(WHITE)
+
+    cnt = 0
+    for i in range(0,boardLength):
+        for z in range(0,boardLength):
+            #check if current loop value is even
+            if cnt % 2 == 0:
+                pygame.draw.rect(display_surface, WHITE,[size*z,size*i,size,size])
+            else:
+                pygame.draw.rect(display_surface, GREY, [size*z,size*i,size,size])
+            cnt +=1
+        #since theres an even number of squares go back one value
+        cnt-=1
     if pygame.mouse.get_pressed()[0] == True and pressedpiece == False:
         pygame.event.get()
         mousevandret, mouselodret = pygame.mouse.get_pos()
@@ -114,11 +144,13 @@ while True:
                 mouseposlodret = str(x[0])
         mousepos = mouseposvandret + mouseposlodret
         piece = data.Get_piece(mousepos)
-        data.chessboard.piecehighlight["highlight"] = piece
-        pressedpiece = True
-        setup2(mousepos, pressedpiece)
-        pygame.event.wait()
-        time.sleep(0.1)
+        turn2 = turncheck(piece)
+        if turn2 == True:
+            data.chessboard.piecehighlight["highlight"] = piece
+            pressedpiece = True
+            setup2(mousepos, pressedpiece)
+            pygame.event.wait()
+            time.sleep(0.1)
     elif pygame.mouse.get_pressed()[0] == True and pressedpiece == True:
         changepiecepos()
         pressedpiece = False
