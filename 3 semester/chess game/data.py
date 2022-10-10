@@ -115,15 +115,7 @@ class chessboard():
         return vandret,lodret
     vandretpos = (("A",0,50),("B",50,100),("C",100,150),("D",150,200),("E",200,250),("F",250,300),("G",300,350),("H",350,400))
     lodretpos = ((1,0,50),(2,50,100),(3,100,150),(4,150,200),(5,200,250),(6,250,300),(7,300,350),(8,350,400))
-    blackpawnposition = (("pawnblack1","A7"),("pawnblack2", "B7"),("pawnblack3","C7"),("pawnblack4","D7"),("pawnblack5","E7"),("pawnblack6","F7"),("pawnblack7","G7"),("pawnblack8","H7"))
-    blackofficerpositions = (("rookblack1","A8"),("knightblack1","B8"),("bishopblack1","C8"),("kingblack1","D8"),("queenblack1","E8"),("bishopblack2","F8"),("knightblack2","G8"),("rookblack2","H8"))
-    whitepawnposition = (("pawnwhite1","A2"),("pawnwhite2", "B2"),("pawnwhite3","C2"),("pawnwhite4","D2"),("pawnwhite5","E2"),("pawnwhite6","F2"),("pawnwhite7","G2"),("pawnwhite8","H2"))
-    whiteofficerpositions =(("rookwhite1","A1"),("knightwhite1","B1"),("bishopwhite1","C1"),("kingwhite1","D1"),("queenwhite1","E1"),("bishopwhite2","F1"),("knightwhite2","G1"),("rookwhite1","H1"))
-    startblackpawnposition = (("pawnblack1","A7"),("pawnblack2", "B6"),("pawnblack3","C7"),("pawnblack4","D7"),("pawnblack5","E7"),("pawnblack6","F7"),("pawnblack7","G7"),("pawnblack8","H7"))
-    startblackofficerpositions = (("rookblack1","A8"),("knightblack1","B8"),("bishopblack1","C8"),("kingblack1","D8"),("queenblack1","E8"),("bishopblack2","F8"),("knightblack2","G8"),("rookblack1","H8"))
-    startwhitepawnposition = (("pawnwhite1","A2"),("pawnwhite2", "B2"),("pawnwhite3","C2"),("pawnwhite4","D2"),("pawnwhite5","E2"),("pawnwhite6","F2"),("pawnwhite7","G2"),("pawnwhite8","H2"))
-    startwhiteofficerpositions =(("rookwhite1","A1"),("knightwhite1","B1"),("bishopwhite1","C1"),("kingwhite1","D1"),("queenwhite1","E1"),("bishopwhite2","F1"),("knightwhite2","G1"),("rookwhite1","H1"))
-
+   
 
 def Get_piece(mouseposition):
     for key, value in chessboard.piecepos.items():

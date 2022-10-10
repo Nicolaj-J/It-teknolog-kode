@@ -7,6 +7,7 @@ WHITE = (255,255,255)
 BLACK = (0,0,0)
 BLUE = (0,0,255)
 GREY = (211,211,211)
+GREEN = (50,205,50)
 sizenormal = 45
 sizehighlight = 65
 # assigning values to height and width variable   
@@ -120,14 +121,14 @@ while True:
     #board length, must be even
     boardLength = 8
     size = width/boardLength
-    display_surface.fill(WHITE)
+    display_surface.fill(GREEN)
 
     cnt = 0
     for i in range(0,boardLength):
         for z in range(0,boardLength):
             #check if current loop value is even
             if cnt % 2 == 0:
-                pygame.draw.rect(display_surface, WHITE,[size*z,size*i,size,size])
+                pygame.draw.rect(display_surface, GREEN,[size*z,size*i,size,size])
             else:
                 pygame.draw.rect(display_surface, GREY, [size*z,size*i,size,size])
             cnt +=1
